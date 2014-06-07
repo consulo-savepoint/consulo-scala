@@ -855,14 +855,10 @@
       <localInspection implementationClass="org.jetbrains.plugins.scala.codeInspection.collections.MapGetOrElseInspection"
                        displayName="Simplifiable map and getOrElse" groupName="Scala: Collections"
                        shortName="MapGetOrElse" level="WARNING"
-                       enabledByDefault="true" language="Scala"/>
+                       enabledByDefault="false" language="Scala"/>
       <localInspection implementationClass="org.jetbrains.plugins.scala.codeInspection.collections.ExistsEqualsInspection"
                        displayName="Exists simplifiable to contains" groupName="Scala: Collections"
                        shortName="ExistsEquals" level="WARNING"
-                       enabledByDefault="true" language="Scala"/>
-      <localInspection implementationClass="org.jetbrains.plugins.scala.codeInspection.collections.DropOneInspection"
-                       displayName="drop(1) replaceable for tail " groupName="Scala: Collections"
-                       shortName="DropOne" level="WARNING"
                        enabledByDefault="true" language="Scala"/>
       <localInspection implementationClass="org.jetbrains.plugins.scala.codeInspection.collections.GetOrElseNullInspection"
                        displayName="Simplifiable getOrElse(null)" groupName="Scala: Collections"
@@ -994,6 +990,9 @@
         <component>
             <implementation-class>org.jetbrains.plugins.scala.worksheet.interactive.WorksheetAutoRunner</implementation-class>
         </component>
+        <component>
+          <implementation-class>org.jetbrains.plugins.scala.debugger.evaluation.ScalaEvaluatorCache</implementation-class>
+        </component>
     </project-components>
 
     <actions>
@@ -1071,7 +1070,7 @@
         </action>
         <action id="Scala.CreateScalaDocStub" class="org.jetbrains.plugins.scala.editor.documentationProvider.CreateScalaDocStubAction">
             <keyboard-shortcut first-keystroke="ctrl alt Q" keymap="$default"/>
-            <keyboard-shortcut first-keystroke="meta alt Q" keymap="Mac OS X"/>
+            <keyboard-shortcut first-keystroke="ctrl alt L" keymap="Mac OS X"/>
         </action>
         <action id="Scala.ShowImplicitParameters" class="org.jetbrains.plugins.scala.actions.ShowImplicitParametersAction"
                 text="Implicit &amp;Parameters" description="Show Implicit Parameters">
@@ -1095,10 +1094,15 @@
           <add-to-group group-id="GenerateGroup"/>
         </action>
         <action id="Scala.GenerateCompanionObject"
-              class="org.jetbrains.plugins.scala.codeInsight.generation.ScalaGenerateCompanionObjectAction" text="Companion object"
-              description="Generate companion object">
-        <add-to-group group-id="GenerateGroup"/>
-      </action>
+                class="org.jetbrains.plugins.scala.codeInsight.generation.ScalaGenerateCompanionObjectAction" text="Companion object"
+                description="Generate companion object">
+          <add-to-group group-id="GenerateGroup"/>
+        </action>
+        <action id="Scala.ExtractTrait"
+                class="org.jetbrains.plugins.scala.lang.refactoring.extractTrait.ScalaExtractTraitAction" text="_Trait..."
+                description="Extract trait from the selected class">
+          <add-to-group group-id="IntroduceActionsGroup"/>
+        </action>
       </actions>
 
 </idea-plugin>

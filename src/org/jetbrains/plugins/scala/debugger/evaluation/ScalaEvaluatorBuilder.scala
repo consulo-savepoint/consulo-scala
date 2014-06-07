@@ -1,39 +1,37 @@
 package org.jetbrains.plugins.scala.debugger.evaluation
 
 import com.intellij.debugger.SourcePosition
-import evaluator._
-import org.jetbrains.plugins.scala.lang.psi.ScalaPsiUtil
 import com.intellij.debugger.engine.evaluation._
-import com.intellij.psi._
 import com.intellij.debugger.engine.evaluation.expression._
-import org.jetbrains.plugins.scala.lang.psi.api.statements.params.{ScParameterClause, ScParameter, ScClassParameter}
-import scala.reflect.NameTransformer
-import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.plugins.scala.lang.psi.impl.ScalaPsiElementFactory
-import org.jetbrains.plugins.scala.lang.resolve.ScalaResolveResult
-import org.jetbrains.plugins.scala.lang.psi.api.expr._
-import org.jetbrains.plugins.scala.lang.psi.api.toplevel.{ScNamedElement, ScEarlyDefinitions}
-import org.jetbrains.plugins.scala.lang.psi.api.{ScPackage, ScalaRecursiveElementVisitor, ScalaElementVisitor}
-import org.jetbrains.plugins.scala.lang.psi.types.result.TypingContext
 import com.intellij.debugger.engine.{JVMName, JVMNameUtil}
-import util.DebuggerUtil
-import scala.collection.mutable
-import scala.collection.mutable.ArrayBuffer
+import com.intellij.lang.java.JavaLanguage
+import com.intellij.psi._
+import com.intellij.psi.util.PsiTreeUtil
+import org.jetbrains.plugins.scala.debugger.evaluation.evaluator._
+import org.jetbrains.plugins.scala.debugger.evaluation.util.DebuggerUtil
+import org.jetbrains.plugins.scala.extensions.{toObjectExt, toPsiClassExt, toPsiModifierListOwnerExt, toPsiNamedElementExt}
+import org.jetbrains.plugins.scala.lang.psi.ScalaPsiUtil
+import org.jetbrains.plugins.scala.lang.psi.api.base._
+import org.jetbrains.plugins.scala.lang.psi.api.base.patterns._
+import org.jetbrains.plugins.scala.lang.psi.api.expr._
+import org.jetbrains.plugins.scala.lang.psi.api.expr.xml.ScXmlPattern
+import org.jetbrains.plugins.scala.lang.psi.api.statements._
+import org.jetbrains.plugins.scala.lang.psi.api.statements.params.{ScClassParameter, ScParameter, ScParameterClause}
+import org.jetbrains.plugins.scala.lang.psi.api.toplevel.templates.{ScClassParents, ScTemplateBody}
+import org.jetbrains.plugins.scala.lang.psi.api.toplevel.typedef._
+import org.jetbrains.plugins.scala.lang.psi.api.toplevel.{ScEarlyDefinitions, ScNamedElement}
+import org.jetbrains.plugins.scala.lang.psi.api.{ScPackage, ScalaElementVisitor, ScalaRecursiveElementVisitor}
+import org.jetbrains.plugins.scala.lang.psi.impl.ScalaPsiElementFactory
 import org.jetbrains.plugins.scala.lang.psi.impl.toplevel.synthetic.ScSyntheticFunction
 import org.jetbrains.plugins.scala.lang.psi.types._
-import org.jetbrains.plugins.scala.lang.psi.api.base.patterns._
-import org.jetbrains.plugins.scala.lang.psi.api.toplevel.templates.{ScClassParents, ScTemplateBody}
-import org.jetbrains.plugins.scala.lang.psi.api.statements._
-import org.jetbrains.plugins.scala.lang.psi.api.toplevel.typedef._
-import org.jetbrains.plugins.scala.lang.psi.api.base._
-import org.jetbrains.plugins.scala.extensions.{toPsiModifierListOwnerExt, toPsiNamedElementExt, toPsiClassExt}
-import org.jetbrains.plugins.scala.lang.psi.api.expr.xml.ScXmlPattern
-import com.intellij.codeInsight.PsiEquivalenceUtil
-import org.jetbrains.plugins.scala.debugger.evaluation.evaluator.ScalaMethodEvaluator
 import org.jetbrains.plugins.scala.lang.psi.types.nonvalue.Parameter
-import org.jetbrains.plugins.scala.lang.psi.types.ScThisType
-import com.intellij.lang.java.JavaLanguage
+import org.jetbrains.plugins.scala.lang.psi.types.result.TypingContext
+import org.jetbrains.plugins.scala.lang.resolve.ScalaResolveResult
+
 import scala.annotation.tailrec
+import scala.collection.mutable
+import scala.collection.mutable.ArrayBuffer
+import scala.reflect.NameTransformer
 
 /**
  * User: Alefas
@@ -41,41 +39,30 @@ import scala.annotation.tailrec
  */
 
 object ScalaEvaluatorBuilder extends EvaluatorBuilder {
-  private var currentPosition: SourcePosition = null
-  private var currentStamp: Long = -1
-  private val cachedEvaluators = mutable.HashMap[PsiElement, ExpressionEvaluator]()
-
   def build(codeFragment: PsiElement, position: SourcePosition): ExpressionEvaluator = {
+    val project = position.getFile.getProject
+    val cache = ScalaEvaluatorCache.getInstance(project)
+
     def cached: Option[ExpressionEvaluator] = {
-      try {
-        val cached = cachedEvaluators.filterKeys(key => PsiEquivalenceUtil.areElementsEquivalent(key, codeFragment))
-        cached.values.headOption
-      }
+      try cache.get(position, codeFragment)
       catch {
         case e: Exception =>
-          cachedEvaluators.clear()
+          cache.clear()
           None
       }
     }
+
     def buildNew(): ExpressionEvaluator = {
       if (codeFragment.getLanguage.isInstanceOf[JavaLanguage])
         return EvaluatorBuilderImpl.getInstance().build(codeFragment, position) //java builder (e.g. SCL-6117)
 
       val eval = new Builder(position).buildElement(codeFragment)
-      cachedEvaluators += (codeFragment -> eval)
+      cache.add(position, codeFragment, eval)
       eval
     }
 
     assert(codeFragment != null)
-    if (position != currentPosition || position.getFile.getModificationStamp != currentStamp) {
-      currentPosition = position
-      currentStamp = position.getFile.getModificationStamp
-      cachedEvaluators.clear()
-      buildNew()
-    }
-    else {
-      cached.getOrElse(buildNew())
-    }
+    cached.getOrElse(buildNew())
   }
 
   private class Builder(position: SourcePosition) extends ScalaElementVisitor {
@@ -701,7 +688,7 @@ object ScalaEvaluatorBuilder extends EvaluatorBuilder {
             val evaluator = arguments(i)
             if (params.length > i) {
               val param = params(i)
-              import PsiType._
+              import com.intellij.psi.PsiType._
               res += (param.getType match {
                 case BOOLEAN | INT | CHAR | DOUBLE | FLOAT | LONG | BYTE | SHORT => evaluator
                 case _ => boxEvaluator(evaluator)
@@ -1314,10 +1301,11 @@ object ScalaEvaluatorBuilder extends EvaluatorBuilder {
                                            resolve: PsiElement,
                                            ref: ScReferenceExpression, replaceWithImplicit: String => ScExpression) {
       val isLocalValue = isLocalV(resolve)
+      val fileName = myContextClass.toOption.flatMap(_.getContainingFile.toOption).map(_.name).orNull
 
       def evaluateFromParameter(fun: PsiElement, resolve: PsiElement): Evaluator = {
         val name = NameTransformer.encode(resolve.asInstanceOf[PsiNamedElement].name)
-        val evaluator = new ScalaLocalVariableEvaluator(name)
+        val evaluator = new ScalaLocalVariableEvaluator(name, fileName)
         fun match {
           case funDef: ScFunctionDefinition =>
             def paramIndex(fun: ScFunctionDefinition, context: PsiElement, elem: PsiElement): Int = {
@@ -1334,7 +1322,6 @@ object ScalaEvaluatorBuilder extends EvaluatorBuilder {
             evaluator.setMethodName("apply")
           case _ => throw EvaluateExceptionUtil.createEvaluateException("Evaluation from parameter not from function definition or function expression")
         }
-        evaluator.setSourceName(fun.getContainingFile.getName)
         myResult = evaluator
         myResult
       }
@@ -1369,18 +1356,17 @@ object ScalaEvaluatorBuilder extends EvaluatorBuilder {
                     if (expr.isEmpty) throw EvaluateExceptionUtil.createEvaluateException("Cannot find expression of match statement")
                     expr.get.accept(this)
                     evaluateSubpatternFromPattern(myResult, pattern.get, namedElement.asInstanceOf[ScPattern])
-                    myResult = new ScalaDuplexEvaluator(new ScalaLocalVariableEvaluator(name), myResult)
+                    myResult = new ScalaDuplexEvaluator(new ScalaLocalVariableEvaluator(name, fileName), myResult)
                   case block: ScBlockExpr => //it is anonymous function
-                    val argEvaluator = new ScalaLocalVariableEvaluator("")
+                    val argEvaluator = new ScalaLocalVariableEvaluator("", fileName)
                     argEvaluator.setMethodName("apply")
-                    argEvaluator.setSourceName(block.getContainingFile.getName)
                     argEvaluator.setParameterIndex(0)
                     val fromPatternEvaluator = evaluateSubpatternFromPattern(argEvaluator, pattern.get, namedElement.asInstanceOf[ScPattern])
-                    myResult = new ScalaDuplexEvaluator(new ScalaLocalVariableEvaluator(name), fromPatternEvaluator)
-                  case _ =>  myResult = new ScalaLocalVariableEvaluator(name)
+                    myResult = new ScalaDuplexEvaluator(new ScalaLocalVariableEvaluator(name, fileName), fromPatternEvaluator)
+                  case _ =>  myResult = new ScalaLocalVariableEvaluator(name, fileName)
                 }
               } else throw EvaluateExceptionUtil.createEvaluateException("Invalid case clause")
-            case _ => myResult = new ScalaLocalVariableEvaluator(name)
+            case _ => myResult = new ScalaLocalVariableEvaluator(name, fileName)
           }
           if (isObject) {
             myResult = new ScalaFieldEvaluator(myResult, ref => true, "elem") //get from VolatileObjectReference
@@ -1574,7 +1560,7 @@ object ScalaEvaluatorBuilder extends EvaluatorBuilder {
               }
               myResult = new ScalaFieldEvaluator(myResult, ref => true, name)
             case None =>
-              myResult = new ScalaLocalVariableEvaluator(name)
+              myResult = new ScalaLocalVariableEvaluator(name, fileName)
           }
       }
     }
