@@ -51,7 +51,7 @@ class ScalaMemberInplaceRenameHandler extends MemberInplaceRenameHandler with Sc
   override def doRename(elementToRename: PsiElement, editor: Editor, dataContext: DataContext): InplaceRefactoring = {
     def showSubstitutePopup(title: String, positive: String, subst: => PsiNamedElement): Unit = {
       val cancel = ScalaBundle.message("rename.cancel")
-      val list: JList[_] = new JBList(positive, cancel).asInstanceOf[JList[_]]
+      val list: JList = new JBList(positive, cancel).asInstanceOf[JList]
       JBPopupFactory.getInstance.createListPopupBuilder(list)
               .setTitle(title)
               .setMovable(false)

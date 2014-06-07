@@ -9,7 +9,7 @@ import org.jetbrains.plugins.scala.lang.refactoring.util.DefaultListCellRenderer
  * @author Pavel Fatin
  */
 class CompileOrderRenderer extends DefaultListCellRendererAdapter {
-  def getListCellRendererComponentAdapter(list: JList[_], value: Any, index: Int,
+  def getListCellRendererComponentAdapter(list: JList, value: Any, index: Int,
                                             isSelected: Boolean, cellHasFocus: Boolean) = {
     val text = value match {
       case CompileOrder.Mixed => "Mixed"

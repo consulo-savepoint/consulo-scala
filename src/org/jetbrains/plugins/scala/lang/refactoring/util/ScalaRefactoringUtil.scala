@@ -297,13 +297,13 @@ object ScalaRefactoringUtil {
 
     val selection = new Selection
     val highlighter: ScopeHighlighter = new ScopeHighlighter(editor)
-    val model: DefaultListModel[T] = new DefaultListModel
+    val model: DefaultListModel = new DefaultListModel
     for (element <- elements) {
       model.addElement(element)
     }
-    val list: JList[T] = new JList(model)
+    val list: JList = new JList(model)
     list.setCellRenderer(new DefaultListCellRendererAdapter {
-      def getListCellRendererComponentAdapter(list: JList[_], value: Object, index: Int, isSelected: Boolean, cellHasFocus: Boolean): Component = {
+      def getListCellRendererComponentAdapter(list: JList, value: Object, index: Int, isSelected: Boolean, cellHasFocus: Boolean): Component = {
         val rendererComponent: Component = getSuperListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
         val element: T = value.asInstanceOf[T]
         if (element.isValid) {
@@ -317,7 +317,7 @@ object ScalaRefactoringUtil {
         highlighter.dropHighlight()
         val index: Int = list.getSelectedIndex
         if (index < 0) return
-        val element: T = model.get(index)
+        val element: T = model.get(index).asInstanceOf[T]
         val toExtract: util.ArrayList[PsiElement] = new util.ArrayList[PsiElement]
         toExtract.add(if (highlightParent) element.getParent else element)
         highlighter.highlight(if (highlightParent) element.getParent else element, toExtract)
@@ -326,7 +326,7 @@ object ScalaRefactoringUtil {
 
     JBPopupFactory.getInstance.createListPopupBuilder(list).setTitle(title).setMovable(false).setResizable(false).setRequestFocus(true).setItemChoosenCallback(new Runnable {
       def run() {
-        pass(list.getSelectedValue)
+        pass(list.getSelectedValue.asInstanceOf[T])
       }
     }).addListener(new JBPopupAdapter {
       override def beforeShown(event: LightweightWindowEvent): Unit = {

@@ -57,12 +57,12 @@ object ScalaProjectSettingsUtil {
     }
   }
 
-  def getPatternListPanel(parent: JComponent, patternJBList: JList[_], inputMessage: String, inputTitle: String): JPanel = {
-    def addPattern(pattern: String, patternJBList: JList[_]) {
+  def getPatternListPanel(parent: JComponent, patternJBList: JList, inputMessage: String, inputTitle: String): JPanel = {
+    def addPattern(pattern: String, patternJBList: JList) {
       if (pattern == null) return
       val listModel = patternJBList.getModel match {
         case null => return
-        case default: DefaultListModel[Any] => default
+        case default: DefaultListModel => default
         case _ => return
       }
       val index: Int = - util.Arrays.binarySearch(listModel.toArray, pattern) - 1
@@ -82,12 +82,12 @@ object ScalaProjectSettingsUtil {
     }).disableUpDownActions.createPanel
   }
 
-  def getUnsortedPatternListPanel(parent: JComponent, patternJBList: JList[_], inputMessage: String, inputTitle: String): JPanel = {
-    def addPattern(pattern: String, patternJBList: JList[_]) {
+  def getUnsortedPatternListPanel(parent: JComponent, patternJBList: JList, inputMessage: String, inputTitle: String): JPanel = {
+    def addPattern(pattern: String, patternJBList: JList) {
       if (pattern == null) return
       val listModel = patternJBList.getModel match {
         case null => return
-        case default: DefaultListModel[Any] => default
+        case default: DefaultListModel => default
         case _ => return
       }
       val index = patternJBList.getSelectedIndex
@@ -111,7 +111,7 @@ object ScalaProjectSettingsUtil {
       override def run(t: AnActionButton): Unit = {
         val listModel = patternJBList.getModel match {
           case null => return
-          case default: DefaultListModel[Any] => default
+          case default: DefaultListModel => default
           case _ => return
         }
         val index = patternJBList.getSelectedIndex

@@ -102,19 +102,19 @@ class ShowImplicitParametersAction extends AnAction("Show implicit parameters ac
           ScalaActionUtil.showHint(editor, "No implicit parameters")
         case Some(seq) =>
           val defaultElement = ScalaPsiElementFactory.createParameterFromText("NotFoundParameter: Int", expr.getManager)
-          val model: DefaultListModel[PsiNamedElement] = new DefaultListModel
+          val model: DefaultListModel = new DefaultListModel
           for (element <- seq) {
             if (element != null)
               model.addElement(element.getElement)
             else 
               model.addElement(defaultElement)
           }
-          val list: JList[PsiNamedElement] = new JList(model)
+          val list: JList = new JList(model)
           val renderer = new ScImplicitParametersListCellRenderer
           val font = editor.getColorsScheme.getFont(EditorFontType.PLAIN)
           renderer.setFont(font)
           list.setFont(font)
-          list.setCellRenderer(renderer.asInstanceOf[ListCellRenderer[_ >: PsiNamedElement]])
+          list.setCellRenderer(renderer.asInstanceOf[ListCellRenderer])
 
           val builder = JBPopupFactory.getInstance.createListPopupBuilder(list)
           builder.setTitle("Actual implicit parameters:").

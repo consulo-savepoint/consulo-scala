@@ -39,6 +39,8 @@ import org.jetbrains.plugins.scala.lang.scaladoc.psi.api.ScDocResolvableCodeRefe
 import org.jetbrains.plugins.scala.settings._
 import org.jetbrains.plugins.scala.util.ScalaUtils
 import scala.collection.mutable.ArrayBuffer
+import java.util
+import java.util.Collections
 
 /**
  * User: Alexander Podkhalyuzin
@@ -153,8 +155,10 @@ class ScalaImportTypeFix(private var classes: Array[TypeToImport], ref: ScRefere
     }
 
     def chooseClass() {
-      val list = new JList(classes)
-      list.setCellRenderer(new FQNameCellRenderer().asInstanceOf[ListCellRenderer[Any]])
+      val items = new util.Vector[Any]()
+      Collections.addAll(items, classes)
+      val list = new JList(items)
+      list.setCellRenderer(new FQNameCellRenderer().asInstanceOf[ListCellRenderer])
 
       val popup = new BaseListPopupStep[TypeToImport](QuickFixBundle.message("class.to.import.chooser.title"), classes) {
         override def getIconFor(aValue: TypeToImport): Icon = {

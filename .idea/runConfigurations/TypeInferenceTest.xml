@@ -15,7 +15,7 @@
     <option name="TEST_OBJECT" value="package" />
     <option name="VM_PARAMETERS" value="-Xms128m -Xmx1024m -XX:MaxPermSize=350m -ea -Didea.system.path=$USER_HOME$/.IdeaData/cardea/scala/test-system -Didea.config.path=$USER_HOME$/.IdeaData/cardea/scala/test-config -Dplugin.path=$PROJECT_DIR$/out/cardea/artifacts/Scala" />
     <option name="PARAMETERS" value="" />
-    <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../" />
+    <option name="WORKING_DIRECTORY" value="file://H:/" />
     <option name="ENV_VARIABLES" />
     <option name="PASS_PARENT_ENVS" value="true" />
     <option name="TEST_SEARCH_SCOPE">

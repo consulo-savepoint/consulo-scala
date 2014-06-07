@@ -1,7 +1,6 @@
 package org.jetbrains.jps.incremental.scala
 
 import java.io._
-import java.nio.file.Files
 import org.jetbrains.jps.incremental.{ProjectBuildException, FSCache, CompileContext}
 import org.jetbrains.jps.builders.java.JavaBuilderUtil
 import org.jetbrains.jps.incremental.messages.{BuildMessage, CompilerMessage}

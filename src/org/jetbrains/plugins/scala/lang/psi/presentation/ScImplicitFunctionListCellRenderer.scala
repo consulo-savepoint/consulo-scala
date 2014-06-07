@@ -23,7 +23,7 @@ import org.jetbrains.plugins.scala.lang.refactoring.util.DefaultListCellRenderer
  */
 class ScImplicitFunctionListCellRenderer(actual: PsiNamedElement) extends ScImplicitFunctionListCellRendererAdapter {
 
-  def getListCellRendererComponentAdapter(list: JList[_], value: Any, index: Int, isSelected: Boolean, cellHasFocus: Boolean) = {
+  def getListCellRendererComponentAdapter(list: JList, value: Any, index: Int, isSelected: Boolean, cellHasFocus: Boolean) = {
     val attrFirstPart = EditorColorsManager.getInstance().getGlobalScheme.getAttributes(DefaultHighlighter.IMPLICIT_FIRST_PART)
     val attrSecondPart =  EditorColorsManager.getInstance().getGlobalScheme.getAttributes(DefaultHighlighter.IMPLICIT_SECOND_PART)
     val implicitFirstPart =  if (attrFirstPart == null)

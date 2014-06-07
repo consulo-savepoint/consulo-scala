@@ -12,7 +12,7 @@ import org.jetbrains.plugins.scala.lang.refactoring.util.DefaultListCellRenderer
  * Pavel.Fatin, 05.07.2010
  */
 
-class LibraryRenderer(comboBox: JComboBox[Object]) extends DefaultListCellRendererAdapter {
+class LibraryRenderer(comboBox: JComboBox) extends DefaultListCellRendererAdapter {
   val Empty = """<html><body><span style="color: #ff0000;">&lt;none&gt;</span>&nbsp;</body></html>"""
   val NotFound = """<html><body><span style="color: #ff0000;">%s [not found]</span>&nbsp;</body></html>"""
   val Unknown = """<html><body>%s&nbsp;</html>"""
@@ -43,7 +43,7 @@ class LibraryRenderer(comboBox: JComboBox[Object]) extends DefaultListCellRender
   @BeanProperty
   var prefixLength = -1
 
-  override def getListCellRendererComponentAdapter(list: JList[_], value: Any, index: Int,
+  override def getListCellRendererComponentAdapter(list: JList, value: Any, index: Int,
                                             isSelected: Boolean, cellHasFocus: Boolean) = {
     val holder = Option(value.asInstanceOf[LibraryDescriptor])
     val html = htmlFor(holder)

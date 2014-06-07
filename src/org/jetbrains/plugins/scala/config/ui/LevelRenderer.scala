@@ -10,7 +10,7 @@ import java.awt.Component
  */
 
 class LevelRenderer extends DefaultListCellRendererAdapter {
-  def getListCellRendererComponentAdapter(list: JList[_], value: Any, index: Int,
+  def getListCellRendererComponentAdapter(list: JList, value: Any, index: Int,
                                             isSelected: Boolean, cellHasFocus: Boolean): Component = {
     val text = Option(value.asInstanceOf[LibraryLevel]).map {
       case LibraryLevel.Global => "global"

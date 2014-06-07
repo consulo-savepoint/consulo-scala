@@ -23,9 +23,9 @@ class SbtModuleImportsEditor(state: ModuleConfigurationState) extends ModuleElem
 
   override def createComponentImpl() = {
     val listPanel = {
-      val list =  new JBList(new DefaultListModel[String]())
+      val list =  new JBList(new DefaultListModel())
       list.setEmptyText("No implicit imports")
-      list.asInstanceOf[JList[String]].setModel(model.asInstanceOf[ListModel[String]])
+      list.asInstanceOf[JList].setModel(model.asInstanceOf[ListModel])
       ToolbarDecorator.createDecorator(list, model).createPanel()
     }
 

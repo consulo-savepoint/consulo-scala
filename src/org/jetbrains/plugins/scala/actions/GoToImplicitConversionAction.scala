@@ -33,7 +33,7 @@ import org.jetbrains.plugins.scala.extensions.toPsiNamedElementExt
 
 object GoToImplicitConversionAction {
   var popup: JBPopup = null
-  var list: JList[_] = null
+  var list: JList = null
 
   def getPopup = popup
 
@@ -43,7 +43,7 @@ object GoToImplicitConversionAction {
 
   def getList = list
 
-  def setList(l: JList[_]) {
+  def setList(l: JList) {
     list = l
   }
 }
@@ -86,7 +86,7 @@ class GoToImplicitConversionAction extends AnAction("Go to implicit conversion a
       val functions = implicitConversions._1
       if (functions.length == 0) return true
       val conversionFun = implicitConversions._2.getOrElse(null)
-      val model: DefaultListModel[Parameters] = new DefaultListModel
+      val model: DefaultListModel = new DefaultListModel
       val firstPart = implicitConversions._3.sortBy(_.name)
       val secondPart = implicitConversions._4.sortBy(_.name)
       var actualIndex = -1
@@ -101,12 +101,12 @@ class GoToImplicitConversionAction extends AnAction("Go to implicit conversion a
         model.addElement(elem)
         if (element == conversionFun) actualIndex = model.indexOf(elem)
       }
-      val list: JList[Parameters] = new JList(model)
+      val list: JList = new JList(model)
       val renderer = new ScImplicitFunctionListCellRenderer(conversionFun)
       val font = editor.getColorsScheme.getFont(EditorFontType.PLAIN)
       renderer.setFont(font)
       list.setFont(font)
-      list.setCellRenderer(renderer.asInstanceOf[ListCellRenderer[_ >: Parameters]])
+      list.setCellRenderer(renderer.asInstanceOf[ListCellRenderer])
       list.getSelectionModel.addListSelectionListener(new ListSelectionListener {
         def valueChanged(e: ListSelectionEvent) {
           hintAlarm.cancelAllRequests

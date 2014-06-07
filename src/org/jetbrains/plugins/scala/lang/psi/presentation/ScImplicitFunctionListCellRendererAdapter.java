@@ -16,11 +16,11 @@ public abstract class ScImplicitFunctionListCellRendererAdapter extends PsiEleme
     return getListCellRendererComponentAdapter(list, value, index, isSelected, cellHasFocus);
   }
 
-  public Component getSuperListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+  public Component getSuperListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
     return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
   }
 
-  public abstract Component getListCellRendererComponentAdapter(JList<?> list,
+  public abstract Component getListCellRendererComponentAdapter(JList list,
                                                                 Object value,
                                                                 int index,
                                                                 boolean isSelected,

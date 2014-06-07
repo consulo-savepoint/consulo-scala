@@ -41,8 +41,8 @@ public class ScalaApplicationSettingsForm implements Configurable {
   private JPanel mySdkPanel;
   private JCheckBox showTypeInfoOnCheckBox;
   private JSpinner delaySpinner;
-  private JComboBox<IncrementalType> myIncrementalTypeCmb;
-  private JComboBox<CompileOrder> myCompileOrderCmb;
+  private JComboBox myIncrementalTypeCmb;
+  private JComboBox myCompileOrderCmb;
   private JPanel myCompilerOptionsPanel;
   private ScalaApplicationSettings mySettings;
 

@@ -12,7 +12,6 @@ import org.jetbrains.jps.model.java.JpsJavaExtensionService
 import org.jetbrains.jps.model.java.compiler.JpsJavaCompilerOptions
 import java.util
 import java.util.Collections
-import java.nio.file.Files
 import org.jetbrains.plugin.scala.compiler.CompileOrder
 
 /**
