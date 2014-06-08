@@ -373,8 +373,8 @@ abstract class ScTypeDefinitionImpl extends ScalaStubBasedElementImpl[ScTemplate
 
   override def getIcon(flags: Int): Icon = {
     val icon = getIconInner
-    return icon //todo: remove, when performance issues will be fixed
-    if (!this.isValid) return icon //to prevent Invalid access: EA: 13535
+    return icon
+  /*  if (!this.isValid) return icon //to prevent Invalid access: EA: 13535
     val isLocked = (flags & Iconable.ICON_FLAG_READ_STATUS) != 0 && !isWritable
     val rowIcon = ElementBase.createLayeredIcon(this, icon, ElementPresentationUtil.getFlags(this, isLocked))
     if ((flags & Iconable.ICON_FLAG_VISIBILITY) != 0) {
@@ -385,7 +385,7 @@ abstract class ScTypeDefinitionImpl extends ScalaStubBasedElementImpl[ScTemplate
       }
       VisibilityIcons.setVisibilityIcon(accessLevel, rowIcon)
     }
-    rowIcon
+    rowIcon  */
   }
 
   protected def getIconInner: Icon

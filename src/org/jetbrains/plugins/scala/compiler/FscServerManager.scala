@@ -6,7 +6,6 @@ import com.intellij.openapi.components.ProjectComponent
 import com.intellij.openapi.wm.{StatusBar, StatusBarWidget, WindowManager}
 import com.intellij.openapi.wm.StatusBarWidget.PlatformType
 import config.ScalaFacet
-import com.intellij.facet.{ProjectWideFacetListenersRegistry, ProjectWideFacetAdapter}
 import java.awt.event.{ActionEvent, ActionListener, MouseEvent}
 import javax.swing.Timer
 import com.intellij.openapi.util.IconLoader
@@ -38,14 +37,14 @@ class FscServerManager(project: Project) extends ProjectComponent {
   def disposeComponent() {}
 
   def projectOpened() {
-    registry.registerListener(ScalaFacet.Id, FacetListener)
+   // registry.registerListener(ScalaFacet.Id, FacetListener)
     configureWidget()
     timer.setRepeats(true)
     timer.start()
   }
 
   def projectClosed() {
-    registry.unregisterListener(ScalaFacet.Id, FacetListener)
+   // registry.unregisterListener(ScalaFacet.Id, FacetListener)
     configureWidget()
     timer.stop()
   }
@@ -78,7 +77,6 @@ class FscServerManager(project: Project) extends ProjectComponent {
   }
 
   private def applicable = running ||
-          !CompilerWorkspaceConfiguration.getInstance(project).USE_OUT_OF_PROCESS_BUILD &&
                   ScalacSettings.getInstance(project).INTERNAL_SERVER &&
                   ScalaFacet.findIn(project).exists(_.fsc)
 
@@ -89,9 +87,6 @@ class FscServerManager(project: Project) extends ProjectComponent {
   private def launcher = project.getComponent(classOf[FscServerLauncher])
 
   private def bar = WindowManager.getInstance.getStatusBar(project)
-
-  private def registry: ProjectWideFacetListenersRegistry =
-    ProjectWideFacetListenersRegistry.getInstance(project)
 
 
   private object Widget extends StatusBarWidget {
@@ -168,7 +163,7 @@ class FscServerManager(project: Project) extends ProjectComponent {
     def actionPerformed(e: AnActionEvent) {
       ShowSettingsUtil.getInstance().showSettingsDialog(project, "Scala Compiler")
     }
-  }
+  }        /*
 
   private object FacetListener extends ProjectWideFacetAdapter[ScalaFacet]() {
     override def facetAdded(facet: ScalaFacet) {
@@ -182,7 +177,7 @@ class FscServerManager(project: Project) extends ProjectComponent {
     override def facetConfigurationChanged(facet: ScalaFacet) {
       configureWidget()
     }
-  }
+  }   */
 
   private object TimerListener extends ActionListener {
     private var wasRunning = false

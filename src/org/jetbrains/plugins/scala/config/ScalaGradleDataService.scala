@@ -1,6 +1,6 @@
 package org.jetbrains.plugins.scala
 package config
-
+   /*
 import java.util
 import java.io.File
 import collection.JavaConverters._
@@ -14,11 +14,11 @@ import com.intellij.openapi.vfs.{VfsUtil, VfsUtilCore}
 import com.intellij.openapi.roots.libraries.Library
 import org.jetbrains.plugins.gradle.model.data.ScalaModelData
 import org.jetbrains.plugins.scala.config.FileAPI._
-import ScalaGradleDataService._
+import ScalaGradleDataService._                  */
 
 /**
  * @author Pavel Fatin
- */
+ */        /*
 class ScalaGradleDataService(platformFacade: PlatformFacade, helper: ProjectStructureHelper)
         extends AbstractDataService[ScalaModelData, ScalaFacet](ScalaModelData.KEY) {
 
@@ -108,3 +108,4 @@ object ScalaGradleDataService {
 
   private def include(b: Boolean, s: String): Seq[String] = if (b) Seq(s) else Seq.empty
 }
+                                */

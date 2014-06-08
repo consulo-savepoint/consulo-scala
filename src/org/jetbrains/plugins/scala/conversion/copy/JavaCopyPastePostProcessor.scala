@@ -19,6 +19,7 @@ import com.intellij.openapi.diagnostic.{Attachment, Logger}
 import settings._
 import com.intellij.diagnostic.LogMessageEx
 import com.intellij.util.ExceptionUtil
+import com.intellij.codeInsight.editorActions.ReferenceTransferableData.ReferenceData
 
 /**
  * User: Alexander Podkhalyuzin

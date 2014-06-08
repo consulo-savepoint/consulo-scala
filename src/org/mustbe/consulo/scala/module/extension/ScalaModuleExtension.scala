@@ -4,6 +4,7 @@ import org.consulo.module.extension.impl.ModuleExtensionImpl
 import com.intellij.openapi.roots.ModifiableRootModel
 import org.jetbrains.plugins.scala.config._
 import java.io.File
+import org.jetbrains.plugins.scala.lang.languageLevel.ScalaLanguageLevel
 
 /**
  * Created by VISTALL on 08.06.14.
@@ -33,5 +34,21 @@ class ScalaModuleExtension(id: String, model: ModifiableRootModel) extends Modul
 
   def compilerLibraryId: LibraryId = {
     new LibraryId(data.compilerLibraryName, data.compilerLibraryLevel)
+  }
+
+  def basePackage: Option[String] = {
+    Option(data.basePackage).filter(!_.isEmpty)
+  }
+
+  def basePackage_=(aPackage: Option[String]) {
+    data.basePackage = aPackage.getOrElse("")
+  }
+
+  def languageLevel: ScalaLanguageLevel.Value = {
+    ScalaLanguageLevel.withName(data.languageLevel)
+  }
+
+  def languageLevel_=(level: ScalaLanguageLevel.Value) {
+    data.languageLevel = level.toString
   }
 }

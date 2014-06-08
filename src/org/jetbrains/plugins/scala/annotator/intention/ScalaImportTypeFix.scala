@@ -41,6 +41,7 @@ import org.jetbrains.plugins.scala.util.ScalaUtils
 import scala.collection.mutable.ArrayBuffer
 import java.util
 import java.util.Collections
+import com.intellij.ide.IconDescriptorUpdaters
 
 /**
  * User: Alexander Podkhalyuzin
@@ -224,7 +225,7 @@ object ScalaImportTypeFix {
     def element: PsiMember with PsiNamedElement
     def isAnnotationType: Boolean = false
     def isValid: Boolean = element.isValid
-    def getIcon: Icon = element.getIcon(0)
+    def getIcon: Icon = IconDescriptorUpdaters.getIcon(element, 0)
     def getProject: Project = element.getProject
   }
 

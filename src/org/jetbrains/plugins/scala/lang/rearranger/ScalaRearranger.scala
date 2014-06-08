@@ -276,7 +276,7 @@ object ScalaRearranger {
     }
 //    matchRules = addCondition(matchRules, CLASS)
     //TODO: Is 'override' ok for macros?
-    new StdRulePriorityAwareSettings(groupingRules, matchRules.reverse)
+    new StdArrangementSettings(/*groupingRules, matchRules.reverse*/)
   }
 
   private val defaultSettings = getDefaultSettings

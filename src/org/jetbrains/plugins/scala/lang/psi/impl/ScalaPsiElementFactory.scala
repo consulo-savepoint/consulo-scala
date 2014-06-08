@@ -14,7 +14,7 @@ import com.intellij.psi.javadoc.PsiDocComment
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.util.IncorrectOperationException
+import com.intellij.util.{LanguageVersionUtil, IncorrectOperationException}
 import java.util
 import org.apache.commons.lang.StringUtils
 import org.jetbrains.plugins.scala.extensions.{toPsiClassExt, toPsiNamedElementExt}
@@ -891,7 +891,8 @@ object ScalaPsiElementFactory {
     val holder: FileElement = DummyHolderFactory.createHolder(manager, context).getTreeElement
     val builder: ScalaPsiBuilderImpl =
       new ScalaPsiBuilderImpl(PsiBuilderFactory.getInstance.createBuilder(manager.getProject, holder,
-        new ScalaLexer, ScalaFileType.SCALA_LANGUAGE, text.trim))
+        new ScalaLexer, ScalaFileType.SCALA_LANGUAGE, LanguageVersionUtil.findDefaultVersion(ScalaFileType.SCALA_LANGUAGE),
+        text.trim))
     val marker = builder.mark()
     parse(builder)
     while (!builder.eof()) {
@@ -913,7 +914,8 @@ object ScalaPsiElementFactory {
     val holder: FileElement = DummyHolderFactory.createHolder(context.getManager, context).getTreeElement
     val builder: ScalaPsiBuilderImpl =
       new ScalaPsiBuilderImpl(PsiBuilderFactory.getInstance.createBuilder(context.getProject, holder,
-        new ScalaLexer, ScalaFileType.SCALA_LANGUAGE, text.trim))
+        new ScalaLexer, ScalaFileType.SCALA_LANGUAGE,
+        LanguageVersionUtil.findDefaultVersion(ScalaFileType.SCALA_LANGUAGE), text.trim))
     val marker = builder.mark()
     parse(builder)
     while (!builder.eof()) {

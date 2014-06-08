@@ -4,7 +4,7 @@ package components
 import com.intellij.psi._
 import icons.Icons
 import javax.swing.Icon
-import com.intellij.ide.{IconDescriptor, IconDescriptorUpdater, IconProvider}
+import com.intellij.ide.{IconDescriptorUpdaters, IconDescriptor, IconDescriptorUpdater}
 import lang.psi.api.ScalaFile
 import org.jetbrains.annotations.Nullable
 import com.intellij.openapi.progress.ProgressManager
@@ -14,7 +14,7 @@ class ScalaIconProvider extends IconDescriptorUpdater {
   override def updateIcon(p1: IconDescriptor, p2: PsiElement, p3: Int): Unit = {
 
   }
-
+       /*
   @Nullable
   override def getIcon(element: PsiElement, flags: Int): Icon = {
     ProgressManager.checkCanceled()
@@ -29,11 +29,11 @@ class ScalaIconProvider extends IconDescriptorUpdater {
         val clazzIterator = defs.iterator
         while (clazzIterator.hasNext) {
           val clazz = clazzIterator.next()
-          if (name.equals(clazz.name)) return clazz.getIcon(flags)
+          if (name.equals(clazz.name)) return IconDescriptorUpdaters.getIcon(clazz, flags)
         }
-        if (!defs.isEmpty) return defs(0).getIcon(flags)
+        if (!defs.isEmpty) return IconDescriptorUpdaters.getIcon(defs(0), flags)
       case _ =>
     }
     null
-  }
+  }   */
 }

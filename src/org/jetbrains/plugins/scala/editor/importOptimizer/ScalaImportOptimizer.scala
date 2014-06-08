@@ -517,7 +517,7 @@ object ScalaImportOptimizer {
 
     def addAllNames(ref: ScStableCodeReferenceElement, nameToAdd: String): Unit = {
       if (ref.multiResolve(false).exists {
-        case ScalaResolveResult(p: PsiPackage, _) => true
+        case ScalaResolveResult(p: PsiJavaPackage, _) => true
         case ScalaResolveResult(td: ScTypedDefinition, _) if td.isStable => true
         case ScalaResolveResult(_: ScTypeDefinition, _) => false
         case ScalaResolveResult(_: PsiClass, _) => true

@@ -1,6 +1,6 @@
 package org.jetbrains.plugins.scala
 package config
-
+                 /*
 import org.jetbrains.idea.maven.importing.{FacetImporter, MavenModifiableModelsProvider, MavenRootModelAdapter}
 import com.intellij.openapi.module.Module
 import java.util.{List, Map}
@@ -14,11 +14,11 @@ import org.jetbrains.idea.maven.server.{NativeMavenProjectHolder, MavenEmbedderW
 import org.jetbrains.plugins.scala.extensions._
 import com.intellij.openapi.project.Project
 import com.intellij.compiler.{CompilerConfiguration, CompilerConfigurationImpl}
-
+                     */
 /**
  * Pavel.Fatin, 03.08.2010
  */
-
+                                     /*
 class ScalaMavenImporter extends FacetImporter[ScalaFacet, ScalaFacetConfiguration, ScalaFacetType](
   "org.scala-tools", "maven-scala-plugin", ScalaFacet.Type, "Scala") {
 
@@ -172,4 +172,4 @@ private class ScalaConfiguration(project: MavenProject) {
     compilerConfigurations.flatMap(_.getChild(name).toOption.toSeq).headOption
 
   def valid = compilerPlugin.isDefined && compilerVersion.isDefined
-}
+}                                               */

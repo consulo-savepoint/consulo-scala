@@ -10,7 +10,6 @@ import com.intellij.util.{FileContentUtil, Consumer}
 import collection.JavaConversions._
 import com.intellij.openapi.project.Project
 import org.jetbrains.plugins.scala.config.ScalaFacet
-import com.intellij.facet.{ProjectWideFacetAdapter, ProjectWideFacetListenersRegistry}
 import com.intellij.openapi.actionSystem.{CommonDataKeys, DataContext}
 import com.intellij.openapi.editor.ex.EditorEx
 import com.intellij.openapi.util._
@@ -66,13 +65,13 @@ class HighlightingAdvisor(project: Project) extends ProjectComponent with Persis
   def disposeComponent() {}
 
   def projectOpened() {
-    registry.registerListener(ScalaFacet.Id, FacetListener)
+   /// registry.registerListener(ScalaFacet.Id, FacetListener)
     configureWidget()
     notifyIfNeeded()
   }
 
   def projectClosed() {
-    registry.unregisterListener(ScalaFacet.Id, FacetListener)
+    ///registry.unregisterListener(ScalaFacet.Id, FacetListener)
     configureWidget()
   }
 
@@ -108,9 +107,6 @@ class HighlightingAdvisor(project: Project) extends ProjectComponent with Persis
       case _ =>
     }
   }
-
-  private def registry: ProjectWideFacetListenersRegistry =
-    ProjectWideFacetListenersRegistry.getInstance(project)
 
   def toggle() {
     if(applicable) {
@@ -185,7 +181,7 @@ class HighlightingAdvisor(project: Project) extends ProjectComponent with Persis
       }
     }
   }
-
+   /*
   private object FacetListener extends ProjectWideFacetAdapter[ScalaFacet]() {
     override def facetAdded(facet: ScalaFacet) {
       configureWidget()
@@ -195,7 +191,7 @@ class HighlightingAdvisor(project: Project) extends ProjectComponent with Persis
     override def facetRemoved(facet: ScalaFacet) {
       configureWidget()
     }
-  }
+  }  */
 }
 
 object HighlightingAdvisor {

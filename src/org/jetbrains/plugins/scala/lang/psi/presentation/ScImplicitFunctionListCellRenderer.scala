@@ -16,6 +16,7 @@ import org.jetbrains.plugins.scala.actions.Parameters
 import org.jetbrains.plugins.scala.highlighter.DefaultHighlighter
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import org.jetbrains.plugins.scala.lang.refactoring.util.DefaultListCellRendererAdapter
+import com.intellij.ide.IconDescriptorUpdaters
 
 /**
  * User: Alexander Podkhalyuzin
@@ -40,7 +41,7 @@ class ScImplicitFunctionListCellRenderer(actual: PsiNamedElement) extends ScImpl
         val colored = container.getComponents.apply(2).asInstanceOf[SimpleColoredComponent]
         if (item == actual) {
           colored.clear()
-          colored.setIcon(actual.getIcon(0))
+          colored.setIcon(IconDescriptorUpdaters.getIcon(actual, 0))
           colored.append(getElementText(actual), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES)
         }
 

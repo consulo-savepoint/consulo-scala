@@ -7,7 +7,7 @@ import config.ScalaFacet
 import com.intellij.compiler.CompilerWorkspaceConfiguration
 import com.intellij.openapi.compiler.{CompileContext, CompileTask, CompilerManager}
 import com.intellij.openapi.module.{Module, ModuleManager}
-import com.intellij.openapi.roots.{ModuleRootManager, CompilerModuleExtension}
+import com.intellij.openapi.roots.{ModuleRootManager}
 import com.intellij.openapi.ui.Messages
 import extensions._
 import com.intellij.openapi.application.ApplicationManager
@@ -27,7 +27,7 @@ class ServerMediator(project: Project) extends ProjectComponent {
     def execute(context: CompileContext): Boolean = {
       val scalaProject = ScalaFacet.isPresentIn(project)
 
-      val externalCompiler = CompilerWorkspaceConfiguration.getInstance(project).USE_OUT_OF_PROCESS_BUILD
+      val externalCompiler = false
 
       def collectStats() {
         val withCompileServerId = "scala.compilation.with.server"
@@ -88,13 +88,13 @@ class ServerMediator(project: Project) extends ProjectComponent {
   })
 
   private def checkCompilationSettings(): Boolean = {
-    def hasClashes(module: Module) = ScalaFacet.findIn(module).isDefined && {
+    def hasClashes(module: Module) = ScalaFacet.findIn(module).isDefined/* && {
       val extension = CompilerModuleExtension.getInstance(module)
       val production = extension.getCompilerOutputUrl
       val test = extension.getCompilerOutputUrlForTests
       production == test
-    }
-    val modulesWithClashes = ModuleManager.getInstance(project).getModules.toSeq.filter(hasClashes)
+    }    */
+ /*   val modulesWithClashes = ModuleManager.getInstance(project).getModules.toSeq.filter(hasClashes)
 
     if (modulesWithClashes.nonEmpty) {
       val result = Messages.showYesNoDialog(project,
@@ -123,9 +123,9 @@ class ServerMediator(project: Project) extends ProjectComponent {
       }
 
       splitAutomatically
-    } else {
+    } else { */
       true
-    }
+   // }
   }
 
   def getComponentName = getClass.getSimpleName

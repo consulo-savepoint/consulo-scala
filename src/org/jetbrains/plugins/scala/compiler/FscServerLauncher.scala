@@ -7,11 +7,12 @@ import java.io.File
 import scala.io.Source
 import config.{Version, Libraries}
 import com.intellij.openapi.components.ProjectComponent
-import com.intellij.openapi.projectRoots.JavaSdkType
+import com.intellij.openapi.projectRoots.{Sdk, JavaSdkType}
 import java.net.InetAddress
 import com.intellij.compiler.impl.CompilerUtil
 import java.util
 import collection.JavaConverters._
+import com.intellij.execution.configurations.GeneralCommandLine
 
 /**
  * Pavel Fatin
@@ -94,7 +95,7 @@ class FscServerLauncher(project: Project) extends ProjectComponent {
   def compilerVersion: Option[String] = instance.map(_.environment.compilerVersion.text)
 
   private def toEnvironment(project: Project): Environment = {
-    val sdk = Option(ProjectRootManager.getInstance(project).getProjectSdk)
+    val sdk = Option(null : Sdk)
             .getOrElse(throw new RuntimeException("No project SDK specified"))
 
     val sdkType = sdk.getSdkType.asInstanceOf[JavaSdkType]
@@ -103,7 +104,9 @@ class FscServerLauncher(project: Project) extends ProjectComponent {
     val lib = Libraries.findBy(settings.COMPILER_LIBRARY_NAME, settings.COMPILER_LIBRARY_LEVEL, project)
             .getOrElse(throw new RuntimeException("No FSC instantiation library specified"))
 
-    Environment(sdkType.getVMExecutablePath(sdk), lib.files.toList, new Version(lib.version.get))
+    val commandLine = new GeneralCommandLine()
+    sdkType.setupCommandLine(commandLine, sdk)
+    Environment(commandLine.getExePath, lib.files.toList, new Version(lib.version.get))
   }
 
   private def runProcess(environment: Environment, className: String,

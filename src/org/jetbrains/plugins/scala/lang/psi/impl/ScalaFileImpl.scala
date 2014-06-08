@@ -150,7 +150,7 @@ class ScalaFileImpl(viewProvider: FileViewProvider, fileType: LanguageFileType =
           }
           true
         }
-      }, GlobalSearchScope.allScope(getProject), getProject, null)
+      }, GlobalSearchScope.allScope(getProject), null)
 
       result match {
         case Some(o) => o

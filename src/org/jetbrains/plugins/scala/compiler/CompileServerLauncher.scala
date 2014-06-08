@@ -2,7 +2,7 @@ package org.jetbrains.plugins.scala
 package compiler
 
 import com.intellij.openapi.components.ApplicationComponent
-import com.intellij.openapi.projectRoots.{JavaSdk, ProjectJdkTable}
+import com.intellij.openapi.projectRoots.{JavaSdk}
 import collection.JavaConverters._
 import com.intellij.util.PathUtil
 import java.io.{IOException, File}

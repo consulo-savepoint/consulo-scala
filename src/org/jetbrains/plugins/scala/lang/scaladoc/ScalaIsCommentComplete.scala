@@ -25,7 +25,7 @@ class ScalaIsCommentComplete extends CommentCompleteHandler {
     if (!commentText.endsWith(expectedCommentEnd)) return false
     val containingFile: PsiFile = comment.getContainingFile
     val language: Language = comment.getParent.getLanguage
-    val lexer: Lexer = LanguageParserDefinitions.INSTANCE.forLanguage(language).createLexer(containingFile.getProject)
+    val lexer: Lexer = LanguageParserDefinitions.INSTANCE.forLanguage(language).createLexer(containingFile.getProject, containingFile.getLanguageVersion)
     val commentPrefix: String = if (docComment) commenter.getDocumentationCommentPrefix else commenter.getBlockCommentPrefix
     lexer.start(commentText, if (commentPrefix eq null) 0 else commentPrefix.length, commentText.length)
     val fileTypeHandler: QuoteHandler = TypedHandler.getQuoteHandler(containingFile, editor)

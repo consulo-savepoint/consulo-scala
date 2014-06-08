@@ -21,6 +21,7 @@ import statements.params.ScClassParameter
 import org.jetbrains.plugins.scala.lang.refactoring.util.ScalaNamesUtil
 import com.intellij.psi.search.{LocalSearchScope, SearchScope}
 import scala.Some
+import com.intellij.ide.IconDescriptorUpdaters
 
 trait ScNamedElement extends ScalaPsiElement with PsiNameIdentifierOwner with NavigatablePsiElement {
   def name: String = {
@@ -74,16 +75,16 @@ trait ScNamedElement extends ScalaPsiElement with PsiNameIdentifierOwner with Na
         case x: ScNewTemplateDefinition => "(<anonymous>)"
         case _ => ""
       }
-      override def getIcon(open: Boolean) = parentMember match {case mem: ScMember => mem.getIcon(0) case _ => null}
+      override def getIcon(open: Boolean) = parentMember match {case mem: ScMember => IconDescriptorUpdaters.getIcon(mem, 0) case _ => null}
     }
   }
-
+ /*
   override def getIcon(flags: Int) =
     ScalaPsiUtil.nameContext(this) match {
       case null => null
       case c: ScCaseClause => Icons.PATTERN_VAL
-      case x => x.getIcon(flags)
-    }
+      case x => IconDescriptorUpdaters.getIcon(x, flags)
+    }             */
 
   abstract override def getUseScope: SearchScope = {
     ScalaPsiUtil.intersectScopes(super.getUseScope, ScalaPsiUtil.nameContext(this) match {

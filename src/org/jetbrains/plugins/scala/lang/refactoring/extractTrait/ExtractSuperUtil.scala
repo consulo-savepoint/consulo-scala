@@ -122,7 +122,7 @@ object ExtractSuperUtil {
   }
 
   def checkPackage(targetPackageName: String, targetClassName: String, sourceClass: PsiClass): String = {
-    val pckg: PsiPackage = JavaPsiFacade.getInstance(sourceClass.getProject).findPackage(targetPackageName)
+    val pckg: PsiJavaPackage = JavaPsiFacade.getInstance(sourceClass.getProject).findPackage(targetPackageName)
     if (pckg == null) return s"Cannot find package with name: $targetPackageName"
     
     val dirs: Array[PsiDirectory] = pckg.getDirectories

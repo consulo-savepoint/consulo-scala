@@ -310,7 +310,7 @@ class PsiClassWrapper(val definition: ScTemplateDefinition,
           case methodProcessor: MethodsProcessor => methodProcessor.getLanguageLevel
           case _ => PsiUtil.getLanguageLevel(place)
         }
-      return PsiClassImplUtil.processDeclarationsInClass(this, processor, state, null, lastParent, place, languageLevel, false)
+      return PsiClassImplUtil.processDeclarationsInClass(this, processor, state, null, lastParent, place,/* languageLevel,*/ false)
     }
     true
   }
@@ -341,10 +341,6 @@ class PsiClassWrapper(val definition: ScTemplateDefinition,
 
   override def toString: String = {
     "PsiClassWrapper(" + definition.toString + ")"
-  }
-
-  override def getIcon(flags: Int): Icon = {
-    definition.getIcon(flags)
   }
 
   def getModifierList: PsiModifierList = {

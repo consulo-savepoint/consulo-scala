@@ -1,7 +1,6 @@
 package org.jetbrains.plugins.scala.config
 
 import java.lang.String
-import com.intellij.facet._
 import com.intellij.openapi.module.{ModuleUtilCore, ModuleManager, Module}
 import com.intellij.openapi.project.Project
 import java.io.File
@@ -28,11 +27,11 @@ object ScalaFacet {
 
   def findFirstIn(project: Project): Option[ScalaModuleExtension] = findIn(project).headOption
   
-  def createIn(module: Module)(action: ScalaFacet => Unit) {
+  def createIn(module: Module)(action: ScalaModuleExtension => Unit) {
     //TODO
   }
 } 
-
+            /*
 @deprecated
 class ScalaFacet(module: Module, name: String, 
                  configuration: ScalaFacetConfiguration, underlyingFacet: Facet[_ <: FacetConfiguration]) 
@@ -99,4 +98,4 @@ class ScalaFacet(module: Module, name: String,
   def languageLevel_=(level: ScalaLanguageLevel.Value) {
     getConfiguration.getState.languageLevel = level.toString
   }
-}
+}      */

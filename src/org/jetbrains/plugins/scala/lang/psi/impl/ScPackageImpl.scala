@@ -18,12 +18,16 @@ import org.jetbrains.plugins.scala.lang.resolve.processor.{BaseProcessor, Resolv
 import org.jetbrains.plugins.scala.lang.psi.types.result.TypingContext
 import org.jetbrains.plugins.scala.lang.psi.types.ScType
 import scala.util.control.ControlThrowable
+import org.consulo.psi.PsiPackageManager
+import org.mustbe.consulo.scala.module.extension.ScalaModuleExtension
 
 /**
  * User: Alexander Podkhalyuzin
  * Date: 22.04.2010
  */
 class ScPackageImpl private (val pack: PsiJavaPackage) extends PsiPackageImpl(pack.getManager.asInstanceOf[PsiManagerEx],
+        PsiPackageManager.getInstance(pack.getProject),
+        classOf[ScalaModuleExtension],
         pack.getQualifiedName) with ScPackage {
   def superProcessDeclarations(processor: PsiScopeProcessor, state: ResolveState,
                                     lastParent: PsiElement, place: PsiElement): Boolean = {

@@ -28,6 +28,7 @@ import api.ScalaFile
 import collection.{mutable, Seq}
 import com.intellij.util.{ReflectionCache, IncorrectOperationException}
 import extensions.{toSeqExt, toPsiClassExt}
+import com.intellij.ide.IconDescriptorUpdaters
 
 abstract class SyntheticNamedElement(val manager: PsiManager, name: String)
 extends LightElement(manager, ScalaFileType.SCALA_LANGUAGE) with PsiNameIdentifierOwner {
@@ -90,7 +91,7 @@ extends SyntheticNamedElement(manager, className) with PsiClass with PsiClassFak
 
       def getPresentableText: String = This.className
 
-      def getIcon(open: Boolean): Icon = This.getIcon(0)
+      def getIcon(open: Boolean): Icon = IconDescriptorUpdaters.getIcon(This, 0)
     }
   }
 

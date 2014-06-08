@@ -251,7 +251,7 @@ trait ScTemplateDefinition extends ScNamedElement with PsiClass {
           case methodProcessor: MethodsProcessor => methodProcessor.getLanguageLevel
           case _ => PsiUtil.getLanguageLevel(place)
         }
-      return PsiClassImplUtil.processDeclarationsInClass(this, processor, oldState, null, lastChild, place, languageLevel, false)
+      return PsiClassImplUtil.processDeclarationsInClass(this, processor, oldState, null, lastChild, place, /*languageLevel, */false)
     }
     if (extendsBlock.templateBody != None &&
       PsiTreeUtil.isContextAncestor(extendsBlock.templateBody.get, place, false) && lastParent != null) return true

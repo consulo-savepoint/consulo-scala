@@ -113,7 +113,7 @@ class FakePsiMethod(
   def getThrowsList: PsiReferenceList = new FakePsiReferenceList(manager, language, PsiReferenceList.Role.THROWS_LIST)
 
   def isVarArgs: Boolean = false
-
+             /*
   override def getIcon(flags: Int): Icon = navElement match {
     case t: ScTypedDefinition =>
       val context = t.nameContext
@@ -121,7 +121,7 @@ class FakePsiMethod(
       else super.getIcon(flags)
     case _ => super.getIcon(flags)
   }
-
+           */
   def getReturnTypeElement: PsiTypeElement = null
 
   def getHierarchicalMethodSignature: HierarchicalMethodSignature =
