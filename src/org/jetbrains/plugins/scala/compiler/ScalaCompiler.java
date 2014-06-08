@@ -24,6 +24,7 @@ import org.jetbrains.plugins.scala.ScalaBundle;
 import org.jetbrains.plugins.scala.ScalaFileType;
 import org.jetbrains.plugins.scala.config.ScalaFacet;
 import org.jetbrains.plugins.scala.lang.psi.api.ScalaFile;
+import org.mustbe.consulo.scala.module.extension.ScalaModuleExtension;
 import scala.Option;
 
 import java.util.Arrays;
@@ -56,7 +57,7 @@ public class ScalaCompiler implements TranslatingCompiler {
     Module module = context.getModuleByFile(file);
     if (module == null) return compilableByFileType;
 
-    Option<ScalaFacet> facet = ScalaFacet.findIn(module);
+    Option<ScalaModuleExtension> facet = ScalaFacet.findIn(module);
     if (!facet.isDefined()) return false;
 
     if (myFsc != facet.get().fsc()) return false;

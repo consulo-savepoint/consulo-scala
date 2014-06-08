@@ -51,6 +51,7 @@ import org.jetbrains.plugins.scala.config.Libraries;
 import org.jetbrains.plugins.scala.config.ScalaFacet;
 import org.jetbrains.plugins.scala.util.ScalaUtils;
 import org.jetbrains.plugins.scala.util.macroDebug.ScalaMacroDebuggingUtil;
+import org.mustbe.consulo.scala.module.extension.ScalaModuleExtension;
 import scala.Option;
 import scala.io.Source;
 
@@ -120,11 +121,11 @@ public class ScalacBackendCompiler extends ExternalCompiler {
     if (!hasJava) return false; //this compiler work with only Java modules, so we don't need to continue.
 
 
-    ScalaFacet facet = null;
+    ScalaModuleExtension facet = null;
 
     // Check for compiler existence
     for (Module module : allModules) {
-      Option<ScalaFacet> facetOption = ScalaFacet.findIn(module);
+      Option<ScalaModuleExtension> facetOption = ScalaFacet.findIn(module);
       if (facetOption.isDefined()) {
         facet = facetOption.get();
         break;
@@ -317,14 +318,14 @@ public class ScalacBackendCompiler extends ExternalCompiler {
     //commandLine.add("-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5009");
 
     ParametersList parametersList = generalCommandLine.getParametersList();
-    ScalaFacet[] facets = ScalaFacet.findIn(chunk.getModules());
+    ScalaModuleExtension[] facets = ScalaFacet.findIn(chunk.getModules());
 
     if (myFsc) {
       if (!settings.INTERNAL_SERVER && !settings.SHARED_DIRECTORY.isEmpty()) {
         parametersList.add(String.format("-Djava.io.tmpdir=%s", settings.SHARED_DIRECTORY));
       }
     } else {
-      for(ScalaFacet facet : facets) {
+      for(ScalaModuleExtension facet : facets) {
         parametersList.addAll(Arrays.asList(facet.javaParameters()));
         break;
       }
@@ -340,7 +341,7 @@ public class ScalacBackendCompiler extends ExternalCompiler {
       classPathBuilder.append(lib.get().classpath());
       classPathBuilder.append(File.pathSeparator);
     } else {
-      for(ScalaFacet facet : facets) {
+      for(ScalaModuleExtension facet : facets) {
         classPathBuilder.append(facet.classpath());
         classPathBuilder.append(File.pathSeparator);
         break;
@@ -519,9 +520,9 @@ public class ScalacBackendCompiler extends ExternalCompiler {
     final Module[] modules = chunk.getModules();
     String firstVersion = null;
     for (Module module : modules) {
-      Option<ScalaFacet> facetOption = ScalaFacet.findIn(module);
+      Option<ScalaModuleExtension> facetOption = ScalaFacet.findIn(module);
       if (facetOption.isDefined()) {
-        final ScalaFacet f = (ScalaFacet) facetOption.get();
+        final ScalaModuleExtension f = (ScalaModuleExtension) facetOption.get();
         String version = f.version();
         if (firstVersion == null) {
           firstVersion = version;

@@ -1,7 +1,7 @@
 package org.jetbrains.plugins.scala
 
 import java.io.File
-import com.intellij.openapi.projectRoots.{SdkType, JavaSdkType, ProjectJdkTable}
+import com.intellij.openapi.projectRoots.{SdkTable, SdkType, JavaSdkType, ProjectJdkTable}
 import com.intellij.openapi.util.io.FileUtil
 
 /**
@@ -13,7 +13,7 @@ package object compiler {
   def findJdkByName(sdkName: String): Either[String, JDK] = {
     Option(sdkName).toRight("No JVM SDK configured").right.flatMap { name =>
 
-      val projectSdk = Option(ProjectJdkTable.getInstance().findJdk(name))
+      val projectSdk = Option(SdkTable.getInstance().findSdk(name))
               .toRight("JVM SDK does not exists: " + sdkName)
 
       projectSdk.right.flatMap { sdk =>

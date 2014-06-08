@@ -2,44 +2,38 @@ package org.jetbrains.plugins.scala.config
 
 import java.lang.String
 import com.intellij.facet._
-import com.intellij.openapi.module.{ModuleManager, Module}
+import com.intellij.openapi.module.{ModuleUtilCore, ModuleManager, Module}
 import com.intellij.openapi.project.Project
 import java.io.File
 import org.jetbrains.plugins.scala.lang.languageLevel.ScalaLanguageLevel
+import org.mustbe.consulo.scala.module.extension.ScalaModuleExtension
 
 /**
  * Pavel.Fatin, 26.07.2010
  */
 
 object ScalaFacet {
-  val Id = new FacetTypeId[ScalaFacet]("scala")
-  val Type = new ScalaFacetType
-
-  def isPresentIn(module: Module) =  findIn(module).isDefined
+  def isPresentIn(module: Module) =  ModuleUtilCore.getExtension(module, classOf[ScalaModuleExtension]) != null
   
-  def findIn(module: Module): Option[ScalaFacet] =
-    Option(FacetManager.getInstance(module)).flatMap(manager => Option(manager.getFacetByType(Id)))
+  def findIn(module: Module): Option[ScalaModuleExtension] =
+    Option(ModuleUtilCore.getExtension(module, classOf[ScalaModuleExtension]))
   
-  def findIn(modules: Array[Module]): Array[ScalaFacet] = modules.flatMap(findIn(_).toList)
+  def findIn(modules: Array[Module]): Array[ScalaModuleExtension] = modules.flatMap(findIn(_).toList)
   
   def findModulesIn(project: Project) = ModuleManager.getInstance(project).getModules.filter(isPresentIn _)
 
   def isPresentIn(project: Project): Boolean = !findModulesIn(project).isEmpty
 
-  def findIn(project: Project): Seq[ScalaFacet] = ScalaFacet.findIn(ScalaFacet.findModulesIn(project))
+  def findIn(project: Project): Seq[ScalaModuleExtension] = ScalaFacet.findIn(ScalaFacet.findModulesIn(project))
 
-  def findFirstIn(project: Project): Option[ScalaFacet] = findIn(project).headOption
+  def findFirstIn(project: Project): Option[ScalaModuleExtension] = findIn(project).headOption
   
   def createIn(module: Module)(action: ScalaFacet => Unit) {
-    val facetManager = FacetManager.getInstance(module)
-    val model = facetManager.createModifiableModel
-    val facet = facetManager.createFacet[ScalaFacet, ScalaFacetConfiguration](ScalaFacet.Type, "Scala", null)
-    action(facet)
-    model.addFacet(facet)
-    model.commit()
+    //TODO
   }
 } 
 
+@deprecated
 class ScalaFacet(module: Module, name: String, 
                  configuration: ScalaFacetConfiguration, underlyingFacet: Facet[_ <: FacetConfiguration]) 
         extends ScalaFacetAdapter(module, name, configuration, underlyingFacet) {

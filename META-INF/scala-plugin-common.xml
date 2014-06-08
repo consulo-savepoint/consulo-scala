@@ -40,6 +40,7 @@
      <constantExpressionEvaluator language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.psi.util.ScalaConstantExpressionEvaluator"/>
      <annotationSupport language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.psi.ScalaAnnotationSupport"/>
      <clsStubBuilderFactory implementation="org.jetbrains.plugins.scala.decompiler.ScClsStubBuilderFactory"/>
+     <debugger.jvmDebugProvider implementation="org.jetbrains.plugins.scala.debugger.ScalaJVMDebuggerProvider" />
 
    </extensions>
 

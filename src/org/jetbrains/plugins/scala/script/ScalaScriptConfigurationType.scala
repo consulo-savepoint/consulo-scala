@@ -5,7 +5,6 @@ import com.intellij.execution.configurations.{ConfigurationType, RunConfiguratio
 import com.intellij.execution.{RunManager, Location, RunnerAndConfigurationSettings}
 import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.psi.{PsiElement, PsiFile}
-import config.ScalaFacet
 import icons.Icons
 import javax.swing.Icon
 import java.lang.String

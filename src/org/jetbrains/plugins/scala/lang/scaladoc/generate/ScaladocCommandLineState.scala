@@ -21,6 +21,7 @@ import com.intellij.psi.PsiManager
 import org.jetbrains.plugins.scala.lang.psi.api.ScalaFile
 import com.intellij.openapi.module.{Module, ModuleManager}
 import java.util.regex.Pattern
+import org.mustbe.consulo.scala.module.extension.ScalaModuleExtension
 
 /**
  * User: Dmitry Naidanov
@@ -160,7 +161,7 @@ class ScaladocCommandLineState(env: ExecutionEnvironment, project: Project)
     val modules = ModuleManager.getInstance(project).getModules
     val facets = ScalaFacet.findIn(modules)
     if (facets.isEmpty) throw new ExecutionException("No facets are configured")
-    val facet: ScalaFacet = facets(0)
+    val facet: ScalaModuleExtension = facets(0)
     val classpathWithFacet = ListBuffer.apply[String]()
     val sourcepathWithFacet = ListBuffer.apply[String]()
     jp.getClassPath.addAll(facet.classpath.split(classpathDelimeter).toList)

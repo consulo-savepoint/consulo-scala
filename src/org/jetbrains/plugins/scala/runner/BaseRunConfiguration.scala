@@ -3,16 +3,17 @@ package runner
 
 import com.intellij.openapi.project.Project
 import com.intellij.execution.configurations.{JavaParameters, RunConfigurationModule, ModuleBasedConfiguration, ConfigurationFactory}
-import com.intellij.openapi.module.Module
+import com.intellij.openapi.module.{ModuleUtilCore, Module}
 import org.jetbrains.plugins.scala.config.{Libraries, CompilerLibraryData, ScalaFacet}
 import scala.collection.JavaConverters._
 import org.jdom.Element
 import com.intellij.openapi.util.JDOMExternalizer
 import com.intellij.execution.{CantRunException, ExecutionException}
 import com.intellij.openapi.roots.ModuleRootManager
-import com.intellij.openapi.projectRoots.{JdkUtil, JavaSdkType}
+import com.intellij.openapi.projectRoots.{Sdk, JdkUtil, JavaSdkType}
 import org.jetbrains.plugins.scala.compiler.ScalacSettings
 import com.intellij.util.PathUtil
+import org.consulo.java.module.extension.JavaModuleExtension
 
 /**
   */
@@ -58,8 +59,7 @@ abstract class BaseRunConfiguration(val project: Project, val configurationFacto
       throw new ExecutionException("No Scala facet configured for module " + module.getName)
     }
 
-    val rootManager = ModuleRootManager.getInstance(module)
-    val sdk = rootManager.getSdk
+    val sdk : Sdk = ModuleUtilCore.getSdk(module, classOf[JavaModuleExtension])
     if (sdk == null || !sdk.getSdkType.isInstanceOf[JavaSdkType]) {
       throw CantRunException.noJdkForModule(module)
     }

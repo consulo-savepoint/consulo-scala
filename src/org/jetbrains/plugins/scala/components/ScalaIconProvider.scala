@@ -4,12 +4,17 @@ package components
 import com.intellij.psi._
 import icons.Icons
 import javax.swing.Icon
-import com.intellij.ide.IconProvider
+import com.intellij.ide.{IconDescriptor, IconDescriptorUpdater, IconProvider}
 import lang.psi.api.ScalaFile
 import org.jetbrains.annotations.Nullable
 import com.intellij.openapi.progress.ProgressManager
 
-class ScalaIconProvider extends IconProvider {
+class ScalaIconProvider extends IconDescriptorUpdater {
+
+  override def updateIcon(p1: IconDescriptor, p2: PsiElement, p3: Int): Unit = {
+
+  }
+
   @Nullable
   override def getIcon(element: PsiElement, flags: Int): Icon = {
     ProgressManager.checkCanceled()

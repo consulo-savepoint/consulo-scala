@@ -3,8 +3,6 @@ package script
 
 
 import com.intellij.execution.configurations.{RunConfiguration, ConfigurationType, ConfigurationFactory}
-import com.intellij.facet.FacetManager
-import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.project.Project
 import javax.swing.Icon
 import java.lang.String

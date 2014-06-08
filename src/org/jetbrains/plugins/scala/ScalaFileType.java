@@ -70,12 +70,4 @@ public class ScalaFileType extends LanguageFileType {
   public Icon getIcon() {
      return Icons.FILE_TYPE_LOGO;
   }
-
-  public boolean isJVMDebuggingSupported() {
-    return true;
-  }
-
-  public EditorHighlighter getEditorHighlighter(@Nullable Project project, @Nullable VirtualFile virtualFile, @NotNull EditorColorsScheme colors) {
-    return new ScalaEditorHighlighter(project, virtualFile, colors);
-  }
 }
