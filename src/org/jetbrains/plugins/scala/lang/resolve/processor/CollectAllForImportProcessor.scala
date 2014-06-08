@@ -16,7 +16,7 @@ class CollectAllForImportProcessor(override val kinds: Set[ResolveTargets.Value]
       val accessible = isAccessible(named, ref)
       if (accessibility && !accessible) return true
       named match {
-        case pack: PsiPackage =>
+        case pack: PsiJavaPackage =>
           candidatesSet += new ScalaResolveResult(ScPackageImpl(pack), getSubst(state), getImports(state),
             isAccessible = true)
         case _ =>  candidatesSet += new ScalaResolveResult(named, getSubst(state), getImports(state),

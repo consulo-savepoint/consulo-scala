@@ -55,7 +55,7 @@ object WorksheetSourceProcessor {
     val packOpt = Option(srcFile.getContainingDirectory) flatMap {
       case dir => Option(JavaDirectoryService.getInstance().getPackage(dir))
     } collect {
-      case psiPackage: PsiPackage if !psiPackage.getQualifiedName.trim.isEmpty =>
+      case psiPackage: PsiJavaPackage if !psiPackage.getQualifiedName.trim.isEmpty =>
         psiPackage.getQualifiedName
     }
 

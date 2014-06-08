@@ -45,7 +45,7 @@ object ResolveProcessor {
           case _ => defaultForTypeAlias(t)
         }
       case t: ScTypeAlias => defaultForTypeAlias(t)
-      case p: PsiPackage => "Package:" + p.getQualifiedName
+      case p: PsiJavaPackage => "Package:" + p.getQualifiedName
       case _ => null
     }
   }
@@ -142,7 +142,7 @@ class ResolveProcessor(override val kinds: Set[ResolveTargets.Value],
       named match {
         case o: ScObject if o.isPackageObject && JavaPsiFacade.getInstance(element.getProject).
                 findPackage(o.qualifiedName) != null =>
-        case pack: PsiPackage =>
+        case pack: PsiJavaPackage =>
           val resolveResult: ScalaResolveResult =
             new ScalaResolveResult(ScPackageImpl(pack), getSubst(state), getImports(state), nameShadow, isAccessible = accessible)
           addResult(resolveResult)

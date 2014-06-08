@@ -1,7 +1,7 @@
 package org.jetbrains.plugins.scala.debugger.evaluation.evaluator
 
 import com.intellij.debugger.DebuggerBundle
-import com.sun.jdi._
+import consulo.internal.com.sun.jdi._
 import com.intellij.debugger.impl.DebuggerUtilsEx
 import com.intellij.debugger.engine.evaluation.expression.{Modifier, Evaluator}
 import com.intellij.debugger.ui.impl.watch.{FieldDescriptorImpl, NodeDescriptorImpl}

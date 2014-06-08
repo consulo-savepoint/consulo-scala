@@ -1,22 +1,22 @@
 <component name="libraryTable">
   <library name="community-plugins">
+    <ANNOTATIONS>
+      <root url="jar://$PROJECT_DIR$/dep/java/lib/jdk-annotations.jar!/" />
+    </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$CARDEA_HOME$/plugins/copyright/lib" />
-      <root url="file://$CARDEA_HOME$/plugins/gradle/lib" />
-      <root url="file://$CARDEA_HOME$/plugins/IntelliLang/lib" />
-      <root url="file://$CARDEA_HOME$/plugins/java-i18n/lib" />
-      <root url="file://$CARDEA_HOME$/plugins/maven/lib" />
-      <root url="file://$CARDEA_HOME$/plugins/properties/lib" />
-      <root url="file://$CARDEA_HOME$/plugins/Groovy/lib" />
+      <root url="jar://$PROJECT_DIR$/dep/java/lib/java-manifest.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dep/java/lib/java-rt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dep/java/lib/java.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dep/java/lib/jdi.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dep/java-i18n/lib/java-i18n.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dep/properties/lib/properties.jar!/" />
+      <root url="file://$PROJECT_DIR$/dep/xml/lib" />
+      <root url="jar://$PROJECT_DIR$/dep/spellchecker/lib/spellchecker.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dep/intelliLang/lib/intelliLang.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dep/maven/lib/maven.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
-    <jarDirectory url="file://$CARDEA_HOME$/plugins/copyright/lib" recursive="false" />
-    <jarDirectory url="file://$CARDEA_HOME$/plugins/gradle/lib" recursive="false" />
-    <jarDirectory url="file://$CARDEA_HOME$/plugins/Groovy/lib" recursive="false" />
-    <jarDirectory url="file://$CARDEA_HOME$/plugins/IntelliLang/lib" recursive="false" />
-    <jarDirectory url="file://$CARDEA_HOME$/plugins/java-i18n/lib" recursive="false" />
-    <jarDirectory url="file://$CARDEA_HOME$/plugins/maven/lib" recursive="false" />
-    <jarDirectory url="file://$CARDEA_HOME$/plugins/properties/lib" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/dep/xml/lib" recursive="false" />
   </library>
 </component>

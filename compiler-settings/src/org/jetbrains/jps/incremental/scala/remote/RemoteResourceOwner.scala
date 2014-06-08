@@ -5,7 +5,7 @@ import java.io._
 import org.jetbrains.jps.incremental.scala._
 import com.martiansoftware.nailgun.NGConstants
 import com.intellij.util.Base64Converter
-import org.jetbrains.jps.incremental.messages.BuildMessage.Kind
+import com.intellij.openapi.compiler.CompilerMessageCategory
 
 /**
  * @author Pavel Fatin
@@ -55,7 +55,7 @@ trait RemoteResourceOwner {
                 val s = new String(data)
                 if (s.length > 50) s.substring(0, 50) + "..." else s
               }
-              client.message(Kind.ERROR, "Unable to read an event from: " + chars)
+              client.message(CompilerMessageCategory.ERROR, "Unable to read an event from: " + chars)
               client.trace(e)
           }
         // Main server class redirects all (unexpected) stdout data to stderr.
@@ -63,9 +63,9 @@ trait RemoteResourceOwner {
         // SBT "leaks" some messages into console (e.g. for "explain type errors" option).
         // Report such output not as errors, but as warings (to continue make process).
         case Chunk(NGConstants.CHUNKTYPE_STDERR, data) =>
-          client.message(Kind.WARNING, fromBytes(data))
+          client.message(CompilerMessageCategory.WARNING, fromBytes(data))
         case Chunk(kind, data) =>
-          client.message(Kind.ERROR, "Unexpected server output: " + data)
+          client.message(CompilerMessageCategory.ERROR, "Unexpected server output: " + data)
       }
     }
   }

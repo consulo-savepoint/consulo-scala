@@ -28,6 +28,7 @@ import org.jetbrains.plugins.scala.settings._
 import org.jetbrains.plugins.scala.lang.psi.api.base.{ScStableCodeReferenceElement, ScReferenceElement, ScFieldId}
 import com.intellij.util.IconUtil
 import org.jetbrains.plugins.scala.annotator.intention.ScalaImportTypeFix.TypeToImport
+import com.intellij.ide.IconDescriptorUpdaters
 
 /**
  * @author Alefas
@@ -178,7 +179,7 @@ class ScalaLookupItem(val element: PsiNamedElement, _name: String, containingCla
       case _ =>
     }
     if (presentation.isReal)
-      presentation.setIcon(element.getIcon(0))
+      presentation.setIcon(IconDescriptorUpdaters.getIcon(element, 0))
     else presentation.setIcon(IconUtil.getEmptyIcon(false))
     var itemText: String =
       if (isRenamed == None) if (isClassName && shouldImport) {

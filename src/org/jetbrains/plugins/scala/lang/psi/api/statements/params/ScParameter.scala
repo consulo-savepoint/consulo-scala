@@ -15,13 +15,13 @@ import org.jetbrains.plugins.scala.lang.psi.types.{ScFunctionType, ScParameteriz
 import util.PsiTreeUtil
 import org.jetbrains.plugins.scala.lang.psi.api.base.ScPrimaryConstructor
 import org.jetbrains.plugins.scala.lang.psi.api.expr.{ScUnderScoreSectionUtil, ScFunctionExpr, ScExpression}
-import com.intellij.lang.java.lexer.JavaLexer
 import com.intellij.pom.java.LanguageLevel
 import com.intellij.psi.search.{LocalSearchScope, GlobalSearchScope}
 import org.jetbrains.plugins.scala.lang.psi.api.toplevel.typedef.ScClass
 import org.jetbrains.plugins.scala.lang.psi.impl.ScalaPsiManager
 import scala.annotation.tailrec
 import scala.collection.immutable.HashSet
+import com.intellij.lexer.JavaLexer
 
 /**
  * @author Alexander Podkhalyuzin

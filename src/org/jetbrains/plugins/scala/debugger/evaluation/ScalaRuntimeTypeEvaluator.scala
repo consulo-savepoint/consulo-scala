@@ -12,7 +12,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.debugger.engine.evaluation.expression.ExpressionEvaluator
 import com.intellij.debugger.{EvaluatingComputable, DebuggerBundle, DebuggerInvocationUtil}
 import com.intellij.debugger.engine.ContextUtil
-import com.sun.jdi.{ClassType, Type, Value}
+import consulo.internal.com.sun.jdi.{ClassType, Type, Value}
 import ScalaRuntimeTypeEvaluator._
 import com.intellij.openapi.application.{ReadAction, AccessToken}
 import com.intellij.psi.search.GlobalSearchScope

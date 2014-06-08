@@ -169,7 +169,7 @@ class ScalaResolveResult(val element: PsiNamedElement,
           case obj: ScObject if obj.isPackageObject =>
             val qualifier = obj.qualifiedName
             return getPackagePrecedence(qualifier)
-          case pack: PsiPackage =>
+          case pack: PsiJavaPackage =>
             val qualifier = pack.getQualifiedName
             return getPackagePrecedence(qualifier)
           case clazz: PsiClass =>
@@ -210,26 +210,26 @@ class ScalaResolveResult(val element: PsiNamedElement,
       importUsed match {
         case _: ImportWildcardSelectorUsed =>
           getActualElement match {
-            case p: PsiPackage => WILDCARD_IMPORT_PACKAGE
+            case p: PsiJavaPackage => WILDCARD_IMPORT_PACKAGE
             case o: ScObject if o.isPackageObject => WILDCARD_IMPORT_PACKAGE
             case _ => WILDCARD_IMPORT
           }
         case _: ImportSelectorUsed =>
           getActualElement match {
-            case p: PsiPackage => IMPORT_PACKAGE
+            case p: PsiJavaPackage => IMPORT_PACKAGE
             case o: ScObject if o.isPackageObject => IMPORT_PACKAGE
             case _ => IMPORT
           }
         case ImportExprUsed(expr) =>
           if (expr.singleWildcard) {
             getActualElement match {
-              case p: PsiPackage => WILDCARD_IMPORT_PACKAGE
+              case p: PsiJavaPackage => WILDCARD_IMPORT_PACKAGE
               case o: ScObject if o.isPackageObject => WILDCARD_IMPORT_PACKAGE
               case _ => WILDCARD_IMPORT
             }
           } else {
             getActualElement match {
-              case p: PsiPackage => IMPORT_PACKAGE
+              case p: PsiJavaPackage => IMPORT_PACKAGE
               case o: ScObject if o.isPackageObject => IMPORT_PACKAGE
               case _ => IMPORT
             }

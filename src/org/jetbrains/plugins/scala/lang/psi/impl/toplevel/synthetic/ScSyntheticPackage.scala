@@ -25,7 +25,7 @@ import extensions.{toPsiClassExt, toPsiNamedElementExt}
  * @author ilyas
  */
 abstract class ScSyntheticPackage(name: String, manager: PsiManager)
-        extends LightElement(manager, ScalaFileType.SCALA_LANGUAGE) with PsiPackage {
+        extends LightElement(manager, ScalaFileType.SCALA_LANGUAGE) with PsiJavaPackage {
 
   def handleQualifiedNameChange(newQualifiedName: String) {
   }
@@ -97,7 +97,7 @@ object ScSyntheticPackage {
             def getClasses: Array[PsiClass] = Array.empty
             def getClasses(scope: GlobalSearchScope): Array[PsiClass] = Array.empty
             def getParentPackage = ScPackageImpl.findPackage(project, pname)
-            def getSubPackages: Array[PsiPackage] = Array.empty
+            def getSubPackages: Array[PsiJavaPackage] = Array.empty
             def getSubPackages(scope: GlobalSearchScope) = Array.empty
             def getContainer: PsiQualifiedNamedElement = null
             def findClassByShortName(name: String, scope: GlobalSearchScope): Array[PsiClass] = Array.empty
@@ -142,7 +142,7 @@ object ScSyntheticPackage {
           def getParentPackage = ScPackageImpl.findPackage(project, pname)
 
           def getSubPackages = {
-            val buff = new HashSet[PsiPackage]
+            val buff = new HashSet[PsiJavaPackage]
             pkgs.foreach{
               p =>
               def addPackage(tail : String) {

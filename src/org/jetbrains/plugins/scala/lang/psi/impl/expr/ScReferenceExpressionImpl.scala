@@ -346,7 +346,7 @@ class ScReferenceExpressionImpl(node: ASTNode) extends ScalaPsiElementImpl(node)
           case Success(tp, _) => tp
           case _ => return result
         })
-      case Some(ScalaResolveResult(pack: PsiPackage, _)) => ScType.designator(pack)
+      case Some(ScalaResolveResult(pack: PsiJavaPackage, _)) => ScType.designator(pack)
       case Some(ScalaResolveResult(clazz: ScClass, s)) if clazz.isCase =>
         s.subst(clazz.constructor.
                 getOrElse(return Failure("Case Class hasn't primary constructor", Some(this))).polymorphicType)

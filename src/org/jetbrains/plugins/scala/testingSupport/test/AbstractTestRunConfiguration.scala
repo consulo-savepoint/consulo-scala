@@ -13,7 +13,7 @@ import com.intellij.openapi.module.Module
 import com.intellij.openapi.components.PathMacroManager
 import lang.psi.impl.ScalaPsiManager
 import lang.psi.api.toplevel.typedef.{ScClass, ScObject}
-import com.intellij.psi.{PsiModifierList, PsiPackage, JavaPsiFacade, PsiClass}
+import com.intellij.psi.{PsiModifierList, PsiJavaPackage, JavaPsiFacade, PsiClass}
 import com.intellij.openapi.util.{Computable, JDOMExternalizer, Getter}
 
 import testingSupport.test.TestRunConfigurationForm.{SearchForTest, TestKind}
@@ -160,7 +160,7 @@ abstract class AbstractTestRunConfiguration(val project: Project,
     if (nonObjectClasses.nonEmpty) nonObjectClasses(0) else if (objectClasses.nonEmpty) objectClasses(0) else null
   }
 
-  def getPackage(path: String): PsiPackage = {
+  def getPackage(path: String): PsiJavaPackage = {
     ScPackageImpl.findPackage(project, path)
   }
 

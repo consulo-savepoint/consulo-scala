@@ -6,9 +6,8 @@ import com.intellij.debugger.engine.evaluation.{EvaluateException, EvaluationCon
 import com.intellij.debugger.DebuggerContext
 import com.intellij.psi.{JavaPsiFacade, PsiExpression}
 import com.intellij.util.{IncorrectOperationException, StringBuilderSpinAllocator}
-import com.sun.tools.jdi.ObjectReferenceImpl
-import com.sun.jdi
-import jdi._
+import consulo.internal.com.sun.tools.jdi.ObjectReferenceImpl
+import consulo.internal.com.sun.jdi._
 import java.util
 import com.intellij.debugger.ui.impl.watch.{ValueDescriptorImpl, WatchItemDescriptor}
 import com.intellij.openapi.project.Project

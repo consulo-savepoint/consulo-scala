@@ -8,7 +8,7 @@ import com.intellij.psi._
 import com.intellij.debugger.requests.ClassPrepareRequestor
 import com.intellij.debugger.engine.{DebugProcess, DebugProcessImpl, CompoundPositionManager}
 import com.intellij.debugger.{NoDataException, PositionManager, SourcePosition}
-import com.sun.jdi.{ClassNotPreparedException, AbsentInformationException, Location, ReferenceType}
+import consulo.internal.com.sun.jdi.{ClassNotPreparedException, AbsentInformationException, Location, ReferenceType}
 import org.jetbrains.plugins.scala.lang.psi.{ScalaPsiUtil, ScalaPsiElement}
 import org.jetbrains.plugins.scala.lang.psi.api.ScalaFile
 import org.jetbrains.plugins.scala.lang.psi.api.expr._
@@ -17,7 +17,7 @@ import org.jetbrains.plugins.scala.lang.psi.api.base.patterns.ScCaseClauses
 import org.jetbrains.plugins.scala.lang.resolve.ResolvableReferenceElement
 import org.jetbrains.plugins.scala.lang.psi.api.statements.ScMacroDefinition
 import com.intellij.psi.util.PsiTreeUtil
-import com.sun.jdi.request.ClassPrepareRequest
+import consulo.internal.com.sun.jdi.request.ClassPrepareRequest
 import com.intellij.openapi.application.ApplicationManager
 import org.jetbrains.plugins.scala.lang.psi.impl.ScalaPsiManager
 import com.intellij.openapi.util.{Computable, Ref}

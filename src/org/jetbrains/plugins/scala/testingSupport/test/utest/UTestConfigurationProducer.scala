@@ -3,7 +3,7 @@ package testingSupport.test.utest
 
 import org.jetbrains.plugins.scala.testingSupport.test.{TestConfigurationUtil, AbstractTestConfigurationProducer, TestConfigurationProducer}
 import com.intellij.execution.{JavaRunConfigurationExtensionManager, RunManager, RunnerAndConfigurationSettings, Location}
-import com.intellij.psi.{PsiDirectory, PsiPackage, PsiElement}
+import com.intellij.psi.{PsiDirectory, PsiJavaPackage, PsiElement}
 import com.intellij.execution.configurations.RunConfiguration
 import com.intellij.openapi.util.text.StringUtil
 import org.jetbrains.plugins.scala.testingSupport.test.TestRunConfigurationForm.TestKind
@@ -25,7 +25,7 @@ class UTestConfigurationProducer extends {
   override def isConfigurationByLocation(configuration: RunConfiguration, location: Location[_ <: PsiElement]): Boolean = {
     val element = location.getPsiElement
     if (element == null) return false
-    if (element.isInstanceOf[PsiPackage] || element.isInstanceOf[PsiDirectory]) {
+    if (element.isInstanceOf[PsiJavaPackage] || element.isInstanceOf[PsiDirectory]) {
       if (!configuration.isInstanceOf[UTestRunConfiguration]) return false
       return TestConfigurationUtil.isPackageConfiguration(element, configuration)
     }
@@ -46,9 +46,9 @@ class UTestConfigurationProducer extends {
     val element = location.getPsiElement
     if (element == null) return null
 
-    if (element.isInstanceOf[PsiPackage] || element.isInstanceOf[PsiDirectory]) {
+    if (element.isInstanceOf[PsiJavaPackage] || element.isInstanceOf[PsiDirectory]) {
       val name = element match {
-        case p: PsiPackage => p.getName
+        case p: PsiJavaPackage => p.getName
         case d: PsiDirectory => d.getName
       }
       return TestConfigurationUtil.packageSettings(element, location, confFactory, ScalaBundle.message("test.in.scope.utest.presentable.text", name))

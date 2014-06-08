@@ -7,7 +7,7 @@ import com.intellij.debugger.jdi.{LocalVariableProxyImpl, StackFrameProxyImpl}
 import com.intellij.debugger.ui.impl.watch.{LocalVariableDescriptorImpl, NodeDescriptorImpl}
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
-import com.sun.jdi.{InternalException, Type, Value}
+import consulo.internal.com.sun.jdi.{InternalException, Type, Value}
 import org.jetbrains.plugins.scala.debugger.evaluation.util.DebuggerUtil
 
 /**

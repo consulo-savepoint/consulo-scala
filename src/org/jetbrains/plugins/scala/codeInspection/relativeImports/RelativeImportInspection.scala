@@ -3,7 +3,7 @@ package codeInspection.relativeImports
 
 import com.intellij.codeInspection.{LocalQuickFix, ProblemDescriptor, ProblemsHolder}
 import com.intellij.openapi.project.Project
-import com.intellij.psi.{PsiElement, PsiPackage}
+import com.intellij.psi.{PsiElement, PsiJavaPackage}
 import org.jetbrains.plugins.scala.codeInspection.AbstractInspection
 import org.jetbrains.plugins.scala.lang.formatting.settings.ScalaCodeStyleSettings
 import org.jetbrains.plugins.scala.lang.psi.api.base.ScStableCodeReferenceElement
@@ -35,7 +35,7 @@ class RelativeImportInspection extends AbstractInspection("RelativeImport", "Rel
           holder.registerProblem(q, "Relative import detected", fixes: _*)
         }
         elem match {
-          case ScalaResolveResult(p: PsiPackage, _) if p.getQualifiedName.contains(".") =>
+          case ScalaResolveResult(p: PsiJavaPackage, _) if p.getQualifiedName.contains(".") =>
             applyProblem(p.getQualifiedName)
           case ScalaResolveResult(c: ScObject, _) if c.isTopLevel && c.qualifiedName.contains(".") =>
             applyProblem(c.qualifiedName)
@@ -73,8 +73,8 @@ private class MakeFullQualifiedImportFix(q: ScStableCodeReferenceElement, fqn: S
     val newRef = ScalaPsiElementFactory.createReferenceFromText(fqn, q.getContext, q)
     import org.jetbrains.plugins.scala.codeInspection.relativeImports.RelativeImportInspection.qual
     val newFqn = qual(newRef).resolve() match {
-      case p: PsiPackage if p.getQualifiedName.contains(".") => "_root_." + fqn
-      case p: PsiPackage => fqn
+      case p: PsiJavaPackage if p.getQualifiedName.contains(".") => "_root_." + fqn
+      case p: PsiJavaPackage => fqn
       case _ => "_root_." + fqn
     }
     q.replace(ScalaPsiElementFactory.createReferenceFromText(newFqn, q.getManager))

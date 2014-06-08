@@ -83,7 +83,7 @@ class ScImportStmtImpl extends ScalaStubBasedElementImpl[ScImportStmt] with ScIm
 
         //todo: making lazy next two definitions leads to compiler failure
         val poOpt = () => exprQual.bind() match {
-          case Some(ScalaResolveResult(p: PsiPackage, _)) =>
+          case Some(ScalaResolveResult(p: PsiJavaPackage, _)) =>
             Option(ScalaShortNamesCacheManager.getInstance(getProject).getPackageObjectByName(p.getQualifiedName, getResolveScope))
           case _ => None
         }
@@ -102,7 +102,7 @@ class ScImportStmtImpl extends ScalaStubBasedElementImpl[ScImportStmt] with ScIm
         }
         def calculateRefType(checkPo: => Boolean) = {
           exprQual.bind() match {
-            case Some(ScalaResolveResult(p: PsiPackage, _)) =>
+            case Some(ScalaResolveResult(p: PsiJavaPackage, _)) =>
               poOpt() match {
                 case Some(po) =>
                   if (checkPo) {
@@ -132,7 +132,7 @@ class ScImportStmtImpl extends ScalaStubBasedElementImpl[ScImportStmt] with ScIm
             case r: ResolveResult => (r.getElement, Set[ImportUsed](), ScSubstitutor.empty)
           }
           (elem, processor) match {
-            case (pack: PsiPackage, complProc: CompletionProcessor) if complProc.includePrefixImports =>
+            case (pack: PsiJavaPackage, complProc: CompletionProcessor) if complProc.includePrefixImports =>
               val settings: ScalaCodeStyleSettings = ScalaCodeStyleSettings.getInstance(getProject)
               val prefixImports = settings.getImportsWithPrefix.filter(s =>
                 !s.startsWith(ScalaCodeStyleSettings.EXCLUDE_PREFIX) &&

@@ -47,7 +47,7 @@ import org.jetbrains.plugins.scala.lang.refactoring.util.ScalaNamesUtil
 object ResolveUtils {
   def kindMatches(element: PsiElement, kinds: Set[ResolveTargets.Value]): Boolean = kinds == null ||
           (element match {
-            case _: PsiPackage | _: ScPackaging => kinds contains PACKAGE
+            case _: PsiJavaPackage | _: ScPackaging => kinds contains PACKAGE
             case obj: ScObject if obj.isPackageObject => kinds contains PACKAGE
             case obj: ScObject => (kinds contains OBJECT) || (kinds contains METHOD)
             case _: ScTypeParam => kinds contains CLASS
@@ -261,7 +261,7 @@ object ResolveUtils {
                           PsiTreeUtil.isContextAncestor(ScalaPsiUtil.getCompanionModule(td).getOrElse(null: PsiElement),
                             place, false) || (td.isInstanceOf[ScObject] &&
                           td.asInstanceOf[ScObject].isPackageObject && processPackage(td.qualifiedName))
-                case pack: PsiPackage =>
+                case pack: PsiJavaPackage =>
                   val packageName = pack.getQualifiedName
                   processPackage(packageName)
                 case _ => true
@@ -331,7 +331,7 @@ object ResolveUtils {
                       }
                     case _ =>
                   }
-                case pack: PsiPackage => //like private (nothing related to real life)
+                case pack: PsiJavaPackage => //like private (nothing related to real life)
                   val packageName = pack.getQualifiedName
                   processPackage(packageName) match {
                     case Some(x) => return x
@@ -469,7 +469,7 @@ object ResolveUtils {
     potentialChild == packageName || potentialChild.startsWith(packageName + ".")
   }
 
-  def packageProcessDeclarations(pack: PsiPackage, processor: PsiScopeProcessor,
+  def packageProcessDeclarations(pack: PsiJavaPackage, processor: PsiScopeProcessor,
                                   state: ResolveState, lastParent: PsiElement, place: PsiElement): Boolean = {
     processor match {
       case b: BaseProcessor if b.isImplicitProcessor =>

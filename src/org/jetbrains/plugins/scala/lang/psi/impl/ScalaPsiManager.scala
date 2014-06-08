@@ -36,7 +36,7 @@ class ScalaPsiManager(project: Project) extends ProjectComponent {
   private val implicitObjectMap: ConcurrentMap[String, SofterReference[java.util.Map[GlobalSearchScope, Seq[ScObject]]]] =
     new ConcurrentHashMap()
 
-  private val packageMap: ConcurrentMap[String, SofterReference[Option[PsiPackage]]] =
+  private val packageMap: ConcurrentMap[String, SofterReference[Option[PsiJavaPackage]]] =
     new ConcurrentHashMap()
 
   private val classMap: ConcurrentMap[String, SofterReference[util.Map[GlobalSearchScope, Option[PsiClass]]]] =
@@ -144,14 +144,14 @@ class ScalaPsiManager(project: Project) extends ProjectComponent {
     result
   }
 
-  def getCachedPackage(fqn: String): PsiPackage = {
-    def calc(): Option[PsiPackage] = {
+  def getCachedPackage(fqn: String): PsiJavaPackage = {
+    def calc(): Option[PsiJavaPackage] = {
       Option(JavaPsiFacade.getInstance(project).findPackage(fqn))
     }
 
     val reference = packageMap.get(fqn)
     if (reference == null || reference.get() == null) {
-      val res: Option[PsiPackage] = calc()
+      val res: Option[PsiJavaPackage] = calc()
       packageMap.put(fqn, new SofterReference(res))
       res.getOrElse(null)
     } else reference.get().getOrElse(null)
@@ -236,7 +236,7 @@ class ScalaPsiManager(project: Project) extends ProjectComponent {
     else classes(0)
   }
 
-  def getClasses(pack: PsiPackage, scope: GlobalSearchScope): Array[PsiClass] = {
+  def getClasses(pack: PsiJavaPackage, scope: GlobalSearchScope): Array[PsiClass] = {
     def calc: Array[PsiClass] = {
       val classes =
         JavaPsiFacade.getInstance(project).asInstanceOf[JavaPsiFacadeImpl].getClasses(pack, scope).filterNot(p =>
@@ -311,7 +311,7 @@ class ScalaPsiManager(project: Project) extends ProjectComponent {
   }
 
   import java.util.{Set => JSet}
-  def getJavaPackageClassNames(psiPackage: PsiPackage, scope: GlobalSearchScope): JSet[String] = {
+  def getJavaPackageClassNames(psiPackage: PsiJavaPackage, scope: GlobalSearchScope): JSet[String] = {
     val qualifier: String = psiPackage.getQualifiedName
     def calc: JSet[String] = {
       if (DumbServiceImpl.getInstance(project).isDumb) return Collections.emptySet()
@@ -340,7 +340,7 @@ class ScalaPsiManager(project: Project) extends ProjectComponent {
     res
   }
 
-  def getScalaClassNames(psiPackage: PsiPackage, scope: GlobalSearchScope): mutable.HashSet[String] = {
+  def getScalaClassNames(psiPackage: PsiJavaPackage, scope: GlobalSearchScope): mutable.HashSet[String] = {
     val qualifier: String = psiPackage.getQualifiedName
     def calc: mutable.HashSet[String] = {
       if (DumbServiceImpl.getInstance(project).isDumb) return mutable.HashSet.empty

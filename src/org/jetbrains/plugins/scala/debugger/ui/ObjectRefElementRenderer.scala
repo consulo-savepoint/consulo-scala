@@ -4,7 +4,7 @@ package debugger.ui
 import com.intellij.debugger.ui.tree.render._
 import com.intellij.debugger.ui.tree.ValueDescriptor
 import com.intellij.debugger.engine.evaluation.EvaluationContext
-import com.sun.jdi._
+import consulo.internal.com.sun.jdi._
 import org.jetbrains.plugins.scala.debugger.filters.ScalaDebuggerSettings
 import com.intellij.util.StringBuilderSpinAllocator
 import java.util

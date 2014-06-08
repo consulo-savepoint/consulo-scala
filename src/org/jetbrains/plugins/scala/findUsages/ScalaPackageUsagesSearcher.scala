@@ -19,7 +19,7 @@ class ScalaPackageUsagesSearcher extends QueryExecutorBase[PsiReference, Referen
     extensions.inReadAction {
       val target: PsiElement = parameters.getElementToSearch
       val scPack = target match {
-        case pack: PsiPackage => ScPackageImpl(pack)
+        case pack: PsiJavaPackage => ScPackageImpl(pack)
         case _ => return
       }
       val name = scPack.name

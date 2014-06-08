@@ -2,8 +2,8 @@ package org.jetbrains.jps.incremental.scala
 package remote
 
 import java.io._
-import org.jetbrains.jps.incremental.messages.BuildMessage.Kind
 import com.intellij.openapi.util.io.FileUtil
+import com.intellij.openapi.compiler.CompilerMessageCategory
 
 /**
  * @author Pavel Fatin
@@ -32,7 +32,7 @@ object Event {
   }
 }
 
-case class MessageEvent(kind: Kind, text: String, source: Option[File], line: Option[Long], column: Option[Long]) extends Event
+case class MessageEvent(kind: CompilerMessageCategory, text: String, source: Option[File], line: Option[Long], column: Option[Long]) extends Event
 
 case class ProgressEvent(text: String, done: Option[Float]) extends Event
 

@@ -381,7 +381,7 @@ trait ResolvableReferenceExpression extends ScReferenceExpression {
       case _ => aType
     }
     val state: ResolveState = fromType match {
-      case ScDesignatorType(p: PsiPackage) => ResolveState.initial()
+      case ScDesignatorType(p: PsiJavaPackage) => ResolveState.initial()
       case _ => ResolveState.initial.put(BaseProcessor.FROM_TYPE_KEY, fromType)
     }
     processor.processType(aType, e, state)
@@ -390,7 +390,7 @@ trait ResolvableReferenceExpression extends ScReferenceExpression {
 
     aType match {
       case d: ScDesignatorType if d.isStatic => return processor
-      case ScDesignatorType(p: PsiPackage) => return processor
+      case ScDesignatorType(p: PsiJavaPackage) => return processor
       case _ =>
     }
 

@@ -181,7 +181,7 @@ class ScalaImportOptimizer extends ImportOptimizer {
       val rangeNamesSet = new mutable.HashSet[String]()
       def addName(name: String): Unit = rangeNamesSet += name
       reference.getResolveResultVariants.foreach {
-        case ScalaResolveResult(p: PsiPackage, _) =>
+        case ScalaResolveResult(p: PsiJavaPackage, _) =>
           if (p.getParentPackage != null && p.getParentPackage.getName != null) addName(name(p.getName))
         case ScalaResolveResult(o: ScObject, _) if o.isPackageObject =>
           if (o.qualifiedName.contains(".")) addName(o.name)
@@ -547,7 +547,7 @@ object ScalaImportOptimizer {
         val refText = imp.qualifier.getText + ".someIdentifier"
         val reference = ScalaPsiElementFactory.createReferenceFromText(refText, imp.qualifier.getContext, imp.qualifier)
         reference.getResolveResultVariants.foreach {
-          case ScalaResolveResult(p: PsiPackage, _) => allNames += name(p.getName)
+          case ScalaResolveResult(p: PsiJavaPackage, _) => allNames += name(p.getName)
           case ScalaResolveResult(td: ScTypedDefinition, _) if td.isStable => allNames += td.name
           case ScalaResolveResult(_: ScTypeDefinition, _) =>
           case ScalaResolveResult(c: PsiClass, _) => allNames += name(c.getName)
@@ -594,7 +594,7 @@ object ScalaImportOptimizer {
     }
     val deepRef = deepestQualifier(qualifier)
 
-    def packageQualifier(p: PsiPackage): String = {
+    def packageQualifier(p: PsiJavaPackage): String = {
       p.getParentPackage match {
         case null => name(p.getName)
         case parent if parent.getName == null => name(p.getName)
@@ -640,7 +640,7 @@ object ScalaImportOptimizer {
 
     if (deepRef.getText != "_root_") {
       deepRef.bind() match {
-        case Some(ScalaResolveResult(p: PsiPackage, _)) =>
+        case Some(ScalaResolveResult(p: PsiJavaPackage, _)) =>
           if (p.getParentPackage != null && p.getParentPackage.getName != null) {
             isRelative = true
             updateQualifierString(packageQualifier(p))

@@ -76,7 +76,7 @@ object Dependency {
             None
           case e: PsiClass =>
             withEntity(e.qualifiedName)
-          case e: PsiPackage =>
+          case e: PsiJavaPackage =>
             withEntity(e.getQualifiedName)
           case (_: ScPrimaryConstructor) && Parent(e: ScClass) =>
             withEntity(e.qualifiedName)

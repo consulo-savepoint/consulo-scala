@@ -57,7 +57,7 @@ object ScalaNamesUtil {
 
   def qualifiedName(named: PsiNamedElement): Option[String] = {
     ScalaPsiUtil.nameContext(named) match {
-      case pack: PsiPackage => Some(pack.getQualifiedName)
+      case pack: PsiJavaPackage => Some(pack.getQualifiedName)
       case clazz: PsiClass => Some(clazz.qualifiedName)
       case memb: PsiMember =>
         val containingClass = memb.containingClass

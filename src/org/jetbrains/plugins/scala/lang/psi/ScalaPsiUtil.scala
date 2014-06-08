@@ -1236,7 +1236,7 @@ object ScalaPsiUtil {
     def isAppropriatePsiElement(x: PsiElement): Boolean = {
       x match {
         case _: ScValue | _: ScVariable | _: ScTypeAlias | _: ScParameter | _: PsiMethod | _: PsiField |
-                _: ScCaseClause | _: PsiClass | _: PsiPackage | _: ScGenerator | _: ScEnumerator | _: ScObject => true
+                _: ScCaseClause | _: PsiClass | _: PsiJavaPackage | _: ScGenerator | _: ScEnumerator | _: ScObject => true
         case _ => false
       }
     }
@@ -1455,7 +1455,7 @@ object ScalaPsiUtil {
     def hasStablePathInner(m: PsiMember): Boolean = {
       m.getContext match {
         case f: PsiFile => return true
-        case _: ScPackaging | _: PsiPackage => return true
+        case _: ScPackaging | _: PsiJavaPackage => return true
         case _ =>
       }
       m.containingClass match {
@@ -1469,7 +1469,7 @@ object ScalaPsiUtil {
 
     nameContext(o) match {
       case member: PsiMember => hasStablePathInner(member)
-      case _: ScPackaging | _: PsiPackage => true
+      case _: ScPackaging | _: PsiJavaPackage => true
       case _ => false
     }
   }

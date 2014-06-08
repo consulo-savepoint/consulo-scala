@@ -5,7 +5,7 @@ import com.intellij.debugger.engine.{JVMName, DebugProcessImpl}
 import com.intellij.debugger.engine.evaluation.{EvaluationContextImpl, EvaluateExceptionUtil}
 import com.intellij.debugger.engine.evaluation.expression.{DisableGC, Modifier, Evaluator}
 import collection.mutable.ArrayBuffer
-import com.sun.jdi._
+import consulo.internal.com.sun.jdi._
 import java.lang.String
 import com.intellij.debugger.{SourcePosition, DebuggerBundle}
 import com.intellij.openapi.application.ApplicationManager

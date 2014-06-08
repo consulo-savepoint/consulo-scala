@@ -7,7 +7,6 @@ package statements
 
 import java.util
 
-import com.intellij.lang.java.lexer.JavaLexer
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.project.DumbServiceImpl
 import com.intellij.openapi.util.Key
@@ -43,6 +42,7 @@ import scala.annotation.tailrec
 import scala.collection.Seq
 import scala.collection.immutable.Set
 import scala.collection.mutable.ArrayBuffer
+import com.intellij.lexer.JavaLexer
 
 /**
  * @author Alexander Podkhalyuzin

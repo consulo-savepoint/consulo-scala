@@ -54,7 +54,7 @@ class ScalaExplicitlyImportedWeigher extends ProximityWeigher {
         if (expr.singleWildcard && qualNoPoint != null) {
           for (resolve <- expr.qualifier.multiResolve(false))
             resolve match {
-              case ScalaResolveResult(pack: PsiPackage, _) =>
+              case ScalaResolveResult(pack: PsiJavaPackage, _) =>
                 if (qualNoPoint == pack.getQualifiedName) return Some(3)
               case ScalaResolveResult(clazz: PsiClass, _) =>
                 if (qualNoPoint == clazz.qualifiedName) return Some(3)

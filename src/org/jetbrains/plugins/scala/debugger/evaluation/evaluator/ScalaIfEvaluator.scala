@@ -1,9 +1,9 @@
 package org.jetbrains.plugins.scala.debugger.evaluation.evaluator
 
 import com.intellij.debugger.engine.evaluation.expression.{Modifier, Evaluator}
-import com.sun.jdi.BooleanValue
+import consulo.internal.com.sun.jdi.BooleanValue
 import com.intellij.debugger.engine.evaluation.{EvaluateExceptionUtil, EvaluationContextImpl}
-import com.sun.tools.jdi.VoidValueImpl
+import consulo.internal.com.sun.tools.jdi.VoidValueImpl
 
 /**
  * User: Alefas

@@ -2,7 +2,7 @@ package org.jetbrains.plugins.scala
 package lang.resolve.processor
 
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.psi.{PsiClass, PsiElement, PsiPackage}
+import com.intellij.psi.{PsiClass, PsiElement, PsiJavaPackage}
 import java.util
 import org.jetbrains.plugins.scala.lang.psi.api.statements.ScTypeAliasDefinition
 import org.jetbrains.plugins.scala.lang.psi.api.toplevel.imports.ScImportExpr
@@ -94,7 +94,7 @@ trait PrecedenceHelper[T] {
         case ImportWildcardSelectorUsed(expr) => expr
       }
       importExpr.qualifier.bind() match {
-        case Some(ScalaResolveResult(p: PsiPackage, _)) => suspiciousPackages.contains(p.getQualifiedName)
+        case Some(ScalaResolveResult(p: PsiJavaPackage, _)) => suspiciousPackages.contains(p.getQualifiedName)
         case Some(ScalaResolveResult(o: ScObject, _)) => suspiciousPackages.contains(o.qualifiedName)
         case _ => false
       }

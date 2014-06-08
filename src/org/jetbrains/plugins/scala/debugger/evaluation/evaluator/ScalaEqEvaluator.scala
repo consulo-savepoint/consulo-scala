@@ -5,7 +5,7 @@ import com.intellij.debugger.impl.DebuggerUtilsEx
 import com.intellij.debugger.engine.evaluation.{EvaluateExceptionUtil, EvaluationContextImpl}
 import com.intellij.debugger.DebuggerBundle
 import com.intellij.debugger.engine.DebuggerUtils
-import com.sun.jdi._
+import consulo.internal.com.sun.jdi._
 
 
 /**

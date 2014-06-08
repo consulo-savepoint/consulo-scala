@@ -99,7 +99,7 @@ class MethodResolveProcessor(override val ref: PsiElement,
           addResult(new ScalaResolveResult(synthetic, s, getImports(state), nameShadow, implicitConversionClass,
             implicitFunction = implFunction, implicitType = implType, fromType = fromType, isAccessible = accessible,
             isForwardReference = forwardReference))
-        case pack: PsiPackage =>
+        case pack: PsiJavaPackage =>
           addResult(new ScalaResolveResult(ScPackageImpl(pack), s, getImports(state), nameShadow, implicitConversionClass,
             implicitFunction = implFunction, implicitType = implType, fromType = fromType, isAccessible = accessible,
             isForwardReference = forwardReference))

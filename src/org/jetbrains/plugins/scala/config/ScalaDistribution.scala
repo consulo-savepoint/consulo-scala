@@ -3,7 +3,7 @@ package config
 
 import java.io.{FilenameFilter, File}
 import FileAPI._
-import com.intellij.openapi.roots.{ModifiableRootModel, JavadocOrderRootType, OrderRootType}
+import com.intellij.openapi.roots.{ModifiableRootModel, OrderRootType}
 /**
  * Pavel.Fatin, 01.07.2010
  */
@@ -76,7 +76,7 @@ abstract class ScalaDistribution(val home: File) {
     Libraries.create(id, rootModel, attach = true) { model =>
       classes.foreach(it => model.addRoot(it.toLibraryRootURL, OrderRootType.CLASSES))
       sources.foreach(it => model.addRoot(it.toLibraryRootURL, OrderRootType.SOURCES))
-      model.addRoot(docs.toLibraryRootURL, JavadocOrderRootType.getInstance)
+      model.addRoot(docs.toLibraryRootURL, OrderRootType.DOCUMENTATION)
     }
 }
 

@@ -212,7 +212,7 @@ class ScStableCodeReferenceElementImpl(node: ASTNode) extends ScalaPsiElementImp
             bindToElement(fun.containingClass)
           case fun: ScFunction if fun.isConstructor =>
             bindToElement(fun.containingClass)
-          case pckg: PsiPackage => bindToPackage(pckg)
+          case pckg: PsiJavaPackage => bindToPackage(pckg)
           case _ => throw new IncorrectOperationException(s"Cannot bind to $element")
         }
       }

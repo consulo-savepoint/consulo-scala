@@ -267,7 +267,7 @@ trait ScReferenceElement extends ScalaPsiElement with ResolvableReferenceElement
                 res
               }
               result match {
-                case r@ScalaResolveResult(pack: PsiPackage, _) =>
+                case r@ScalaResolveResult(pack: PsiJavaPackage, _) =>
                   if (pack.getQualifiedName == packagePart) true
                   else if (r.importsUsed.isEmpty) smartCheck
                   else false
@@ -292,7 +292,7 @@ trait ScReferenceElement extends ScalaPsiElement with ResolvableReferenceElement
     }
   }
 
-  def bindToPackage(pckg: PsiPackage, addImport: Boolean = false): PsiElement = {
+  def bindToPackage(pckg: PsiJavaPackage, addImport: Boolean = false): PsiElement = {
     val qualifiedName = pckg.getQualifiedName
     extensions.inWriteAction {
       val refText =
@@ -302,7 +302,7 @@ trait ScReferenceElement extends ScalaPsiElement with ResolvableReferenceElement
             case ImportExprUsed(expr) => expr.reference.exists { ref =>
               ref.multiResolve(false).exists(rr => rr.getElement match {
                 case p: ScPackage => p.getQualifiedName == qualifiedName
-                case p: PsiPackage => p.getQualifiedName == qualifiedName
+                case p: PsiJavaPackage => p.getQualifiedName == qualifiedName
                 case _ => false
               })
             }

@@ -341,11 +341,11 @@ trait ScImportsHolder extends ScalaPsiElement {
     val completionProcessor = new CompletionProcessor(StdKinds.packageRef, place, includePrefixImports = false)
     treeWalkUp(completionProcessor, this, place)
     val names: mutable.HashSet[String] = new mutable.HashSet
-    val packs: ArrayBuffer[PsiPackage] = new ArrayBuffer
-    val renamedPackages: mutable.HashMap[PsiPackage, String] = new mutable.HashMap[PsiPackage, String]()
+    val packs: ArrayBuffer[PsiJavaPackage] = new ArrayBuffer
+    val renamedPackages: mutable.HashMap[PsiJavaPackage, String] = new mutable.HashMap[PsiJavaPackage, String]()
     for (candidate <- completionProcessor.candidatesS) {
       candidate match {
-        case r@ScalaResolveResult(pack: PsiPackage, _) =>
+        case r@ScalaResolveResult(pack: PsiJavaPackage, _) =>
           if (names.contains(pack.name)) {
             var index = packs.indexWhere(_.name == pack.name)
             while(index != -1) {
@@ -408,7 +408,7 @@ trait ScImportsHolder extends ScalaPsiElement {
       else {
         val psiPack = ScPackageImpl.findPackage(getProject, getSplitQualifierElement(qualifiedName)._1)
         if (psiPack != null) psiPack.getSubPackages(getResolveScope)
-        else Array[PsiPackage]()
+        else Array[PsiJavaPackage]()
       }
       def checkImports(element: PsiElement) {
         element match {
@@ -421,7 +421,7 @@ trait ScImportsHolder extends ScalaPsiElement {
               while (firstQualifier.qualifier != None) firstQualifier = firstQualifier.qualifier.get
               if (subPackages.map(_.name).contains(firstQualifier.getText)) {
                 var classPackageQualifier = getSplitQualifierElement(firstQualifier.resolve() match {
-                  case pack: PsiPackage => pack.getQualifiedName
+                  case pack: PsiJavaPackage => pack.getQualifiedName
                   case cl: PsiClass => cl.qualifiedName
                   case _ => return
                 })._1

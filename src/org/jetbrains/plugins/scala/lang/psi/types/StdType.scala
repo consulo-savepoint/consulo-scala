@@ -71,7 +71,7 @@ object StdType {
     "scala.Singleton" -> Singleton
   )
 
-  import com.intellij.psi.CommonClassNames._
+  import org.mustbe.consulo.java.util.JavaClassNames._
   val fqnBoxedToScType = Map(
     JAVA_LANG_BOOLEAN -> Boolean,
     JAVA_LANG_BYTE -> Byte,

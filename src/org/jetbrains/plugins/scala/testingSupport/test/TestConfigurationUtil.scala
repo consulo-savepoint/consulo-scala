@@ -15,9 +15,9 @@ object TestConfigurationUtil {
   def packageSettings(element: PsiElement, location: Location[_ <: PsiElement],
                       confFactory: AbstractTestRunConfigurationFactory,
                       displayName: String): RunnerAndConfigurationSettings = {
-      val pack: PsiPackage = element match {
+      val pack: PsiJavaPackage = element match {
         case dir: PsiDirectory => JavaDirectoryService.getInstance.getPackage(dir)
-        case pack: PsiPackage => pack
+        case pack: PsiJavaPackage => pack
       }
       if (pack == null) return null
       val settings = RunManager.getInstance(location.getProject).createRunConfiguration(displayName, confFactory)
@@ -31,9 +31,9 @@ object TestConfigurationUtil {
   }
 
   def isPackageConfiguration(element: PsiElement, configuration: RunConfiguration): Boolean = {
-    val pack: PsiPackage = element match {
+    val pack: PsiJavaPackage = element match {
       case dir: PsiDirectory => JavaDirectoryService.getInstance.getPackage(dir)
-      case pack: PsiPackage => pack
+      case pack: PsiJavaPackage => pack
     }
     if (pack == null) return false
     configuration match {

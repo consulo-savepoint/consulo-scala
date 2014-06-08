@@ -492,7 +492,7 @@ object Unit
     res.toArray
   }
 
-  override def getClasses(p : PsiPackage, scope : GlobalSearchScope) = findClasses(p.getQualifiedName, scope)
+  override def getClasses(p : PsiJavaPackage, scope : GlobalSearchScope) = findClasses(p.getQualifiedName, scope)
 
   def getScriptSyntheticValues: Seq[ScSyntheticValue] = scriptSyntheticValues.toSeq
 }

@@ -396,7 +396,7 @@ object ScSimpleTypeElementImpl {
     ref.qualifier match {
       case Some(qual) =>
         qual.resolve() match {
-          case pack: PsiPackage =>
+          case pack: PsiJavaPackage =>
             val obj = PsiTreeUtil.getContextOfType(resolvedElement, classOf[ScObject])
             if (obj != null && obj.isPackageObject) {
               Success(ScProjectionType(ScDesignatorType(obj), resolvedElement,

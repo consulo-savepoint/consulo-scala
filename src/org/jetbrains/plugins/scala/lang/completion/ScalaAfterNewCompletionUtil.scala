@@ -19,6 +19,7 @@ import org.jetbrains.plugins.scala.lang.psi.api.toplevel.typedef.{ScObject, ScTr
 import org.jetbrains.plugins.scala.lang.psi.types._
 import org.jetbrains.plugins.scala.lang.resolve.ResolveUtils
 import scala.collection.mutable
+import com.intellij.ide.IconDescriptorUpdaters
 
 /**
  * @author Alefas
@@ -102,7 +103,7 @@ object ScalaAfterNewCompletionUtil {
         }
         case _ =>
       }
-      presentation.setIcon(psiClass.getIcon(0))
+      presentation.setIcon(IconDescriptorUpdaters.getIcon(psiClass, 0))
       presentation.setStrikeout(isDeprecated)
       presentation.setItemText(itemText)
     }

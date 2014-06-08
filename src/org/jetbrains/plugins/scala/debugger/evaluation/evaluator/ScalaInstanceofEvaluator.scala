@@ -4,7 +4,7 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.debugger.impl.DebuggerUtilsEx
 import com.intellij.psi.PsiType
 import com.intellij.debugger.DebuggerBundle
-import com.sun.jdi._
+import consulo.internal.com.sun.jdi._
 import java.util.LinkedList
 import com.intellij.debugger.engine.evaluation.expression.{TypeEvaluator, Modifier, Evaluator}
 import com.intellij.debugger.engine.evaluation.{EvaluationContextImpl, EvaluateExceptionUtil}

@@ -49,9 +49,9 @@ class ScalaTestConfigurationProducer extends {
     val element = location.getPsiElement
     if (element == null) return null
 
-    if (element.isInstanceOf[PsiPackage] || element.isInstanceOf[PsiDirectory]) {
+    if (element.isInstanceOf[PsiJavaPackage] || element.isInstanceOf[PsiDirectory]) {
       val name = element match {
-        case p: PsiPackage => p.getName
+        case p: PsiJavaPackage => p.getName
         case d: PsiDirectory => d.getName
       }
       return TestConfigurationUtil.packageSettings(element, location, confFactory, ScalaBundle.message("test.in.scope.scalatest.presentable.text", name))
@@ -83,7 +83,7 @@ class ScalaTestConfigurationProducer extends {
   override def isConfigurationByLocation(configuration: RunConfiguration, location: Location[_ <: PsiElement]): Boolean = {
     val element = location.getPsiElement
     if (element == null) return false
-    if (element.isInstanceOf[PsiPackage] || element.isInstanceOf[PsiDirectory]) {
+    if (element.isInstanceOf[PsiJavaPackage] || element.isInstanceOf[PsiDirectory]) {
       if (!configuration.isInstanceOf[ScalaTestRunConfiguration]) return false
       return TestConfigurationUtil.isPackageConfiguration(element, configuration)
     }

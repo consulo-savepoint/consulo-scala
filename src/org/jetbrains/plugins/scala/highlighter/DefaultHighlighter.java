@@ -16,6 +16,7 @@
 package org.jetbrains.plugins.scala.highlighter;
 
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType;
+import com.intellij.codeInsight.daemon.impl.JavaHighlightInfoTypes;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
@@ -260,9 +261,9 @@ public class DefaultHighlighter {
   public static TextAttributesKey IMMUTABLE_COLLECTION = createKey(IMMUTABLE_COLLECTION_ID, DefaultLanguageHighlighterColors.IDENTIFIER);
   public static TextAttributesKey JAVA_COLLECTION = createKey(JAVA_COLLECTION_ID, DefaultLanguageHighlighterColors.IDENTIFIER);
   public static TextAttributesKey PREDEF = createKey(PREDEF_ID, DefaultLanguageHighlighterColors.COMMA);
-  public static TextAttributesKey TYPEPARAM = createKey(TYPEPARAM_ID, HighlightInfoType.TYPE_PARAMETER_NAME.getAttributesKey());
-  public static TextAttributesKey OBJECT = createKey(OBJECT_ID, HighlightInfoType.CLASS_NAME.getAttributesKey());
-  public static TextAttributesKey CLASS = createKey(CLASS_ID, HighlightInfoType.CLASS_NAME.getAttributesKey());
+  public static TextAttributesKey TYPEPARAM = createKey(TYPEPARAM_ID, JavaHighlightInfoTypes.TYPE_PARAMETER_NAME.getAttributesKey());
+  public static TextAttributesKey OBJECT = createKey(OBJECT_ID, JavaHighlightInfoTypes.CLASS_NAME.getAttributesKey());
+  public static TextAttributesKey CLASS = createKey(CLASS_ID, JavaHighlightInfoTypes.CLASS_NAME.getAttributesKey());
   public static TextAttributesKey SCALA_DOC_TAG = createKey(SCALA_DOC_TAG_ID, DefaultLanguageHighlighterColors.DOC_COMMENT_TAG);
   public static TextAttributesKey SCALA_DOC_HTML_TAG = createKey(SCALA_DOC_HTML_TAG_ID, DefaultLanguageHighlighterColors.DOC_COMMENT_MARKUP);
   public static TextAttributesKey SCALA_DOC_WIKI_SYNTAX = createKey(SCALA_DOC_WIKI_SYNTAX_ID,DefaultLanguageHighlighterColors.DOC_COMMENT_MARKUP);
@@ -270,8 +271,8 @@ public class DefaultHighlighter {
   public static TextAttributesKey SCALA_DOC_MARKUP = createKey(SCALA_DOC_MARKUP_ID, DefaultLanguageHighlighterColors.DOC_COMMENT_MARKUP);
   public static TextAttributesKey SCALA_DOC_TAG_PARAM_VALUE = createKey(SCALA_DOC_TAG_PARAM_VALUE_ID, DefaultLanguageHighlighterColors.DOC_COMMENT_TAG);
   public static TextAttributesKey IMPLICIT_CONVERSIONS = createKey(IMPLICIT_CONVERSIONS_ID, DefaultLanguageHighlighterColors.IDENTIFIER);
-  public static TextAttributesKey ABSTRACT_CLASS = createKey(ABSTRACT_CLASS_ID, HighlightInfoType.ABSTRACT_CLASS_NAME.getAttributesKey());
-  public static TextAttributesKey TRAIT = createKey(TRAIT_ID, HighlightInfoType.INTERFACE_NAME.getAttributesKey());
+  public static TextAttributesKey ABSTRACT_CLASS = createKey(ABSTRACT_CLASS_ID, JavaHighlightInfoTypes.ABSTRACT_CLASS_NAME.getAttributesKey());
+  public static TextAttributesKey TRAIT = createKey(TRAIT_ID, JavaHighlightInfoTypes.INTERFACE_NAME.getAttributesKey());
   public static TextAttributesKey LOCAL_VALUES = createKey(LOCAL_VALUES_ID, HighlightInfoType.LOCAL_VARIABLE.getAttributesKey());
   public static TextAttributesKey LOCAL_VARIABLES = createKey(LOCAL_VARIABLES_ID, HighlightInfoType.LOCAL_VARIABLE.getAttributesKey());
   public static TextAttributesKey LOCAL_LAZY = createKey(LOCAL_LAZY_ID, HighlightInfoType.LOCAL_VARIABLE.getAttributesKey());
@@ -284,9 +285,9 @@ public class DefaultHighlighter {
   public static TextAttributesKey OBJECT_METHOD_CALL = createKey(OBJECT_METHOD_CALL_ID, HighlightInfoType.STATIC_METHOD.getAttributesKey());
   public static TextAttributesKey LOCAL_METHOD_CALL = createKey(LOCAL_METHOD_CALL_ID, HighlightInfoType.METHOD_CALL.getAttributesKey());
   public static TextAttributesKey METHOD_DECLARATION = createKey(METHOD_DECLARATION_ID, HighlightInfoType.METHOD_DECLARATION.getAttributesKey());
-  public static TextAttributesKey ANNOTATION = createKey(ANNOTATION_ID, HighlightInfoType.ANNOTATION_NAME.getAttributesKey());
+  public static TextAttributesKey ANNOTATION = createKey(ANNOTATION_ID, JavaHighlightInfoTypes.ANNOTATION_NAME.getAttributesKey());
   public static TextAttributesKey ANNOTATION_ATTRIBUTE = createKey(ANNOTATION_ATTRIBUTE_ID, HighlightInfoType.ANNOTATION_ATTRIBUTE_NAME.getAttributesKey());
-  public static TextAttributesKey TYPE_ALIAS = createKey(TYPE_ALIAS_ID, HighlightInfoType.TYPE_PARAMETER_NAME.getAttributesKey());
+  public static TextAttributesKey TYPE_ALIAS = createKey(TYPE_ALIAS_ID, JavaHighlightInfoTypes.TYPE_PARAMETER_NAME.getAttributesKey());
   public static TextAttributesKey ASSIGN = createKey(ASSIGN_ID, DefaultLanguageHighlighterColors.OPERATION_SIGN);
   public static TextAttributesKey BAD_CHARACTER = createKey(BAD_CHARACTER_ID, HighlighterColors.BAD_CHARACTER);
   public static TextAttributesKey DOC_COMMENT = createKey(DOC_COMMENT_ID, DefaultLanguageHighlighterColors.DOC_COMMENT);

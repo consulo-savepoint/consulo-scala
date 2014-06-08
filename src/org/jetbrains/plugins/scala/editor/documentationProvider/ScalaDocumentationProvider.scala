@@ -494,7 +494,7 @@ object ScalaDocumentationProvider {
         case clazz: PsiClass => "[<a href=\"psi_element://" +
                 escapeHtml(clazz.qualifiedName) + "\"><code>" +
                 (x.idText match {case Some(text) => text case None => ""}) + "</code></a>]"
-        case pack: PsiPackage => "[" + escapeHtml(pack.getQualifiedName) + "]"
+        case pack: PsiJavaPackage => "[" + escapeHtml(pack.getQualifiedName) + "]"
         case _ => x.idText match {case Some(text) => "[" + text + "]" case None => ""}
       }
     }) + " "

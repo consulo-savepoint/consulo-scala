@@ -29,6 +29,7 @@ import org.jetbrains.plugins.scala.lang.psi.api.expr.ScExpression
 import org.jetbrains.plugins.scala.lang.resolve.processor.CompletionProcessor
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.psi.search.LocalSearchScope
+import org.mustbe.consulo.java.util.JavaClassNames
 
 /**
 * Nikolay.Tropin
@@ -149,7 +150,7 @@ class ScalaGenerateDelegateHandler extends GenerateDelegateHandler {
         if (srr.implicitConversionClass.nonEmpty || srr.implicitFunction.nonEmpty) return None
         srr.getElement match {
           case meth: PsiMethod if meth.isConstructor || meth.getContainingClass == null => None
-          case meth: PsiMethod if meth.getContainingClass.getQualifiedName == CommonClassNames.JAVA_LANG_OBJECT => None
+          case meth: PsiMethod if meth.getContainingClass.getQualifiedName == JavaClassNames.JAVA_LANG_OBJECT => None
           case meth: PsiMethod if !ResolveUtils.isAccessible(meth, place, forCompletion = true) => None
           case meth: PsiMethod => Some(new PhysicalSignature(meth, srr.substitutor))
           case _ => None
@@ -210,7 +211,7 @@ class ScalaGenerateDelegateHandler extends GenerateDelegateHandler {
     case typed: ScalaTypedMember if typed.scType == types.Unit => false
     case method: ScMethodMember =>
       method.getElement match {
-        case m: PsiMethod if {val cl = m.getContainingClass; cl != null && cl.getQualifiedName == CommonClassNames.JAVA_LANG_OBJECT} => false
+        case m: PsiMethod if {val cl = m.getContainingClass; cl != null && cl.getQualifiedName == JavaClassNames.JAVA_LANG_OBJECT} => false
         case f: ScFunction => (f.isParameterless || f.isEmptyParen) && ResolveUtils.isAccessible(f, clazz, forCompletion = false)
         case m: PsiMethod => m.isAccessor && ResolveUtils.isAccessible(m, clazz, forCompletion = false)
         case _ => false

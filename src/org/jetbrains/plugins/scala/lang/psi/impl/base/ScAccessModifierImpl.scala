@@ -84,7 +84,7 @@ class ScAccessModifierImpl extends ScalaStubBasedElementImpl[ScAccessModifier] w
       }
       def getCanonicalText = resolve match {
         case td : ScTypeDefinition => td.qualifiedName
-        case p : PsiPackage => p.getQualifiedName
+        case p : PsiJavaPackage => p.getQualifiedName
         case _ => null
       }
       def isSoft = false
@@ -92,7 +92,7 @@ class ScAccessModifierImpl extends ScalaStubBasedElementImpl[ScAccessModifier] w
       def handleElementRename(newElementName: String) = doRename(newElementName)
       def bindToElement(e : PsiElement) = e match {
         case td : ScTypeDefinition => doRename(td.name)
-        case p : PsiPackage => doRename(p.name)
+        case p : PsiJavaPackage => doRename(p.name)
         case _ => throw new IncorrectOperationException("cannot bind to anything but type definition or package")
       }
 
@@ -105,14 +105,14 @@ class ScAccessModifierImpl extends ScalaStubBasedElementImpl[ScAccessModifier] w
 
       def isReferenceTo(element: PsiElement) = element match {
         case td : ScTypeDefinition => td.name == text.get && resolve == td
-        case p : PsiPackage => p.name == text.get && resolve == p
+        case p : PsiJavaPackage => p.name == text.get && resolve == p
         case _ => false
       }
 
       def resolve(): PsiElement = {
         val name = text.get
-        def findPackage(qname : String) : PsiPackage = {
-          var pack: PsiPackage = ScPackageImpl(JavaPsiFacade.getInstance(getProject).findPackage(qname))
+        def findPackage(qname : String) : PsiJavaPackage = {
+          var pack: PsiJavaPackage = ScPackageImpl(JavaPsiFacade.getInstance(getProject).findPackage(qname))
           while (pack != null) {
             if (pack.name == name) return pack
             pack = pack.getParentPackage
@@ -133,7 +133,7 @@ class ScAccessModifierImpl extends ScalaStubBasedElementImpl[ScAccessModifier] w
       def getVariants: Array[Object] = {
         val buff = new ArrayBuffer[Object]
         def processPackages(qname : String) {
-          var pack: PsiPackage = ScPackageImpl(JavaPsiFacade.getInstance(getProject).findPackage(qname))
+          var pack: PsiJavaPackage = ScPackageImpl(JavaPsiFacade.getInstance(getProject).findPackage(qname))
           while (pack != null && pack.name != null) {
             buff += pack
             pack = pack.getParentPackage

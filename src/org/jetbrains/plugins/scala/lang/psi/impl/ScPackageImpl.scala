@@ -23,7 +23,7 @@ import scala.util.control.ControlThrowable
  * User: Alexander Podkhalyuzin
  * Date: 22.04.2010
  */
-class ScPackageImpl private (val pack: PsiPackage) extends PsiPackageImpl(pack.getManager.asInstanceOf[PsiManagerEx],
+class ScPackageImpl private (val pack: PsiJavaPackage) extends PsiPackageImpl(pack.getManager.asInstanceOf[PsiManagerEx],
         pack.getQualifiedName) with ScPackage {
   def superProcessDeclarations(processor: PsiScopeProcessor, state: ResolveState,
                                     lastParent: PsiElement, place: PsiElement): Boolean = {
@@ -117,11 +117,11 @@ class ScPackageImpl private (val pack: PsiPackage) extends PsiPackageImpl(pack.g
     }
   }
 
-  override def getSubPackages: Array[PsiPackage] = {
+  override def getSubPackages: Array[PsiJavaPackage] = {
     super.getSubPackages.map(ScPackageImpl(_))
   }
 
-  override def getSubPackages(scope: GlobalSearchScope): Array[PsiPackage] = {
+  override def getSubPackages(scope: GlobalSearchScope): Array[PsiJavaPackage] = {
     super.getSubPackages(scope).map(ScPackageImpl(_))
   }
 
@@ -129,7 +129,7 @@ class ScPackageImpl private (val pack: PsiPackage) extends PsiPackageImpl(pack.g
 }
 
 object ScPackageImpl {
-  def apply(pack: PsiPackage): ScPackageImpl = {
+  def apply(pack: PsiJavaPackage): ScPackageImpl = {
     pack match {
       case null => null
       case impl: ScPackageImpl => impl

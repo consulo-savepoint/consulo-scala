@@ -81,7 +81,7 @@ trait FileDeclarationsHolder extends PsiElement with ScDeclarationSequenceHolder
             val migration = PsiMigrationManager.getInstance(getProject).getCurrentMigration
             if (migration != null) {
               val list = migration.getMigrationPackages("")
-              val packages = list.toArray(new Array[PsiPackage](list.size)).map(ScPackageImpl(_))
+              val packages = list.toArray(new Array[PsiJavaPackage](list.size)).map(ScPackageImpl(_))
               val iterator = packages.iterator
               while (iterator.hasNext) {
                 val pack = iterator.next()
@@ -89,7 +89,7 @@ trait FileDeclarationsHolder extends PsiElement with ScDeclarationSequenceHolder
               }
             }
           } else {
-            val aPackage: PsiPackage = ScPackageImpl(ScalaPsiManager.instance(getProject).getCachedPackage(name))
+            val aPackage: PsiJavaPackage = ScPackageImpl(ScalaPsiManager.instance(getProject).getCachedPackage(name))
             if (aPackage != null && !processor.execute(aPackage, state)) return false
           }
         }
@@ -146,7 +146,7 @@ trait FileDeclarationsHolder extends PsiElement with ScDeclarationSequenceHolder
       while (implPIterator.hasNext) {
         val implP = implPIterator.next()
         ProgressManager.checkCanceled()
-        val pack: PsiPackage = ScalaPsiManager.instance(getProject).getCachedPackage(implP)
+        val pack: PsiJavaPackage = ScalaPsiManager.instance(getProject).getCachedPackage(implP)
         if (pack != null && !ResolveUtils.packageProcessDeclarations(pack, processor, state, null, place)) return false
       }
       true

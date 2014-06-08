@@ -231,7 +231,7 @@ class ScalaShortNamesCacheManager(project: Project) extends ProjectComponent {
     res.toSeq
   }
 
-  def getClasses(psiPackage: PsiPackage, scope: GlobalSearchScope): Array[PsiClass] = {
+  def getClasses(psiPackage: PsiJavaPackage, scope: GlobalSearchScope): Array[PsiClass] = {
     val otherClassNames = getClassNames(psiPackage, scope)
     val result: ArrayBuffer[PsiClass] = new ArrayBuffer[PsiClass]()
     for (clazzName <- otherClassNames) {
@@ -244,7 +244,7 @@ class ScalaShortNamesCacheManager(project: Project) extends ProjectComponent {
     result.toArray
   }
 
-  def getClassNames(psiPackage: PsiPackage, scope: GlobalSearchScope): mutable.HashSet[String] = {
+  def getClassNames(psiPackage: PsiJavaPackage, scope: GlobalSearchScope): mutable.HashSet[String] = {
     ScalaPsiManager.instance(project).getScalaClassNames(psiPackage, scope)
   }
 

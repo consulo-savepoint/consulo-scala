@@ -8,7 +8,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.util.Computable
 import com.intellij.psi.{PsiClass, PsiElement}
-import com.sun.jdi.{ObjectReference, Value}
+import consulo.internal.com.sun.jdi.{ObjectReference, Value}
 import org.jetbrains.plugins.scala.extensions.toPsiClassExt
 import org.jetbrains.plugins.scala.lang.psi.ScalaPsiUtil
 import org.jetbrains.plugins.scala.lang.psi.api.base.ScPrimaryConstructor

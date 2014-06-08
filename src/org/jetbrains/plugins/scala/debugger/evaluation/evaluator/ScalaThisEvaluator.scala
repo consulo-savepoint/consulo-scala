@@ -3,7 +3,7 @@ package org.jetbrains.plugins.scala.debugger.evaluation.evaluator
 import com.intellij.debugger.engine.evaluation.expression.{Modifier, Evaluator}
 import com.intellij.debugger.DebuggerBundle
 import com.intellij.debugger.engine.evaluation.{EvaluationContextImpl, EvaluateExceptionUtil}
-import com.sun.jdi.{AbsentInformationException, Field, ObjectReference, Value}
+import consulo.internal.com.sun.jdi.{AbsentInformationException, Field, ObjectReference, Value}
 import com.intellij.debugger.jdi.{StackFrameProxyImpl, LocalVariableProxyImpl}
 
 /**

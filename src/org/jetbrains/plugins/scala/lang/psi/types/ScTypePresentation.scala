@@ -21,7 +21,7 @@ import org.jetbrains.plugins.scala.lang.psi.api.base.ScFieldId
 trait ScTypePresentation {
   def presentableText(t: ScType) = typeText(t, _.name, {
       case obj: ScObject if Set("scala.Predef", "scala").contains(obj.qualifiedName) => ""
-      case pack: PsiPackage => ""
+      case pack: PsiJavaPackage => ""
       case e => e.name + "."
     }
   )
@@ -33,7 +33,7 @@ trait ScTypePresentation {
         case e: PsiClass => "<a href=\"psi_element://" + e.qualifiedName + "\"><code>" +
                 StringEscapeUtils.escapeHtml(e.name) +
                 "</code></a>" + (if (withPoint) "." else "")
-        case pack: PsiPackage if withPoint => ""
+        case pack: PsiJavaPackage if withPoint => ""
         case _ => StringEscapeUtils.escapeHtml(e.name) + "."
       }
     }
@@ -49,7 +49,7 @@ trait ScTypePresentation {
         case c: PsiClass =>
           val qname = c.qualifiedName
           if (qname != null && qname != c.name /* exlude default package*/ ) "_root_." + qname else c.name
-        case p: PsiPackage => "_root_." + p.getQualifiedName
+        case p: PsiJavaPackage => "_root_." + p.getQualifiedName
         case _ =>
           ScalaPsiUtil.nameContext(e) match {
             case m: ScMember =>
@@ -116,7 +116,7 @@ trait ScTypePresentation {
           e.asInstanceOf[PsiModifierListOwner].getModifierList.hasModifierProperty("static")
       }
       p match {
-        case ScDesignatorType(pack: PsiPackage) =>
+        case ScDesignatorType(pack: PsiJavaPackage) =>
           nameWithPointFun(pack) + refName
         case ScDesignatorType(obj: ScObject) =>
           nameWithPointFun(obj) + refName + typeTailForProjection

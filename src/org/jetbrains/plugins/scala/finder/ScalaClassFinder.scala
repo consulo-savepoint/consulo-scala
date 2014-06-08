@@ -59,13 +59,13 @@ class ScalaClassFinder(project: Project) extends PsiElementFinder {
     else null
   }
 
-  override def findPackage(qName: String): PsiPackage = null
+  override def findPackage(qName: String): PsiJavaPackage = null
 
-  override def getClassNames(psiPackage: PsiPackage, scope: GlobalSearchScope): util.Set[String] = {
+  override def getClassNames(psiPackage: PsiJavaPackage, scope: GlobalSearchScope): util.Set[String] = {
     ScalaPsiManager.instance(project).getJavaPackageClassNames(psiPackage, scope)
   }
 
-  override def getClasses(psiPackage: PsiPackage, scope: GlobalSearchScope): Array[PsiClass] = {
+  override def getClasses(psiPackage: PsiJavaPackage, scope: GlobalSearchScope): Array[PsiClass] = {
     val otherClassNames = getClassNames(psiPackage, scope)
     val result: ArrayBuffer[PsiClass] = new ArrayBuffer[PsiClass]()
     import scala.collection.JavaConversions._

@@ -1,24 +1,24 @@
 package org.jetbrains.jps.incremental.scala
 
-import org.jetbrains.jps.incremental.messages.BuildMessage.Kind
 import java.io.File
+import com.intellij.openapi.compiler.CompilerMessageCategory
 
 /**
  * @author Pavel Fatin
  */
 trait Client {
-  def message(kind: Kind, text: String, source: Option[File] = None, line: Option[Long] = None, column: Option[Long] = None)
+  def message(kind: CompilerMessageCategory, text: String, source: Option[File] = None, line: Option[Long] = None, column: Option[Long] = None)
 
   def error(text: String, source: Option[File] = None, line: Option[Long] = None, column: Option[Long] = None) {
-    message(Kind.ERROR, text, source, line, column)
+    message(CompilerMessageCategory.ERROR, text, source, line, column)
   }
 
   def warning(text: String, source: Option[File] = None, line: Option[Long] = None, column: Option[Long] = None) {
-    message(Kind.WARNING, text, source, line, column)
+    message(CompilerMessageCategory.WARNING, text, source, line, column)
   }
 
   def info(text: String, source: Option[File] = None, line: Option[Long] = None, column: Option[Long] = None) {
-    message(Kind.INFO, text, source, line, column)
+    message(CompilerMessageCategory.INFORMATION, text, source, line, column)
   }
 
   def trace(exception: Throwable)
