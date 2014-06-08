@@ -27,6 +27,7 @@ import lang.psi.types.Signature
 import extensions.{toPsiMemberExt, toPsiNamedElementExt, toPsiClassExt}
 import java.util
 import collection.mutable
+import com.intellij.ide.IconDescriptorUpdaters
 
 /**
  * User: Alexander Podkhalyuzin
@@ -263,7 +264,7 @@ object ScalaMarkerType {
     override def getIcon(element: PsiElement): Icon = {
       element match {
         case _: PsiMethod => super.getIcon(element)
-        case x: PsiNamedElement if ScalaPsiUtil.nameContext(x) != null => ScalaPsiUtil.nameContext(x).getIcon(getIconFlags)
+        case x: PsiNamedElement if ScalaPsiUtil.nameContext(x) != null => IconDescriptorUpdaters.getIcon(ScalaPsiUtil.nameContext(x), getIconFlags)
         case _ => super.getIcon(element)
       }
     }

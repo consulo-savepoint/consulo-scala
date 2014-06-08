@@ -2,12 +2,15 @@ package org.jetbrains.plugins.scala.compiler;
 
 import com.intellij.compiler.CompilerConfiguration;
 import com.intellij.compiler.CompilerConfigurationImpl;
+import com.intellij.compiler.JavaCompilerUtil;
 import com.intellij.compiler.OutputParser;
 import com.intellij.compiler.impl.CompilerUtil;
 import com.intellij.compiler.impl.ModuleChunk;
 import com.intellij.compiler.impl.javaCompiler.ExternalCompiler;
 import com.intellij.compiler.impl.javaCompiler.JavaCompilerConfigurable;
 import com.intellij.compiler.impl.javaCompiler.JavaCompilerConfiguration;
+import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.execution.configurations.ParametersList;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompileScope;
@@ -27,6 +30,8 @@ import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Comparing;
+import com.intellij.openapi.util.Computable;
+import com.intellij.openapi.util.ThrowableComputable;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.CharsetToolkit;
@@ -195,12 +200,12 @@ public class ScalacBackendCompiler extends ExternalCompiler {
       return false;
     }
 
-    //todo: Project SDK can be undefined, however Module SDK is defined
+   /* //todo: Project SDK can be undefined, however Module SDK is defined
     if (myFsc && !ApplicationManager.getApplication().isUnitTestMode() &&
         ProjectRootManager.getInstance(myProject).getProjectSdk() ==  null) {
       Messages.showErrorDialog(myProject, "Please, set up project SDK (required for project FSC instantiation)", ScalaBundle.message("cannot.compile"));
       return false;
-    }
+    }    */
 
     // There's a bug in IDEA resulting in the incorrect compiler
     // invocation order when annotation processing is enabled
@@ -259,41 +264,26 @@ public class ScalacBackendCompiler extends ExternalCompiler {
   }
 
   @NotNull
-  public String[] createStartupCommand(final ModuleChunk chunk, CompileContext context, final String outputPath) throws IOException, IllegalArgumentException {
-    final ArrayList<String> commandLine = new ArrayList<String>();
-    final Exception[] ex = new Exception[]{null};
-    ApplicationManager.getApplication().runReadAction(new Runnable() {
-      public void run() {
-        try {
-          createStartupCommandImpl(chunk, commandLine, outputPath);
+  public GeneralCommandLine createStartupCommand(final ModuleChunk chunk, CompileContext context, final String outputPath) throws IOException, IllegalArgumentException {
+    try {
+      return ApplicationManager.getApplication().runReadAction(new ThrowableComputable<GeneralCommandLine, Throwable>() {
+        @Override
+        public GeneralCommandLine compute() throws Throwable{
+          return createStartupCommandImpl(chunk,  outputPath);
         }
-        catch (IllegalArgumentException e) {
-          ex[0] = e;
-        }
-        catch (IOException e) {
-          ex[0] = e;
-        }
-      }
-    });
-    if (ex[0] != null) {
-      if (ex[0] instanceof IOException) {
-        throw (IOException) ex[0];
-      } else if (ex[0] instanceof IllegalArgumentException) {
-        throw (IllegalArgumentException) ex[0];
+      });
+    } catch (Throwable ex) {
+      if (ex instanceof IOException) {
+        throw (IOException) ex;
+      } else if (ex instanceof IllegalArgumentException) {
+        throw (IllegalArgumentException) ex;
       } else {
-        LOG.error(ex[0]);
+        LOG.error(ex);
+        return new GeneralCommandLine();
       }
     }
-    return commandLine.toArray(new String[commandLine.size()]);
   }
-
-  @NotNull
-  @Override
-  public Set<FileType> getCompilableFileTypes() {
-    return COMPILABLE_FILE_TYPES;
-  }
-
-  private void createStartupCommandImpl(ModuleChunk chunk, ArrayList<String> commandLine, String outputPath) throws IOException {
+  private GeneralCommandLine createStartupCommandImpl(ModuleChunk chunk, String outputPath) throws IOException {
     final Sdk jdk = getJdkForStartupCommand(chunk);
     final String versionString = jdk.getVersionString();
     if (versionString == null || "".equals(versionString)) {
@@ -309,8 +299,8 @@ public class ScalacBackendCompiler extends ExternalCompiler {
       throw new IllegalArgumentException(ScalaBundle.message("different.scala.sdk.in.modules"));
     }
 
-    String javaExecutablePath = sdkType.getVMExecutablePath(jdk);
-    commandLine.add(javaExecutablePath);
+    GeneralCommandLine generalCommandLine = new GeneralCommandLine();
+    sdkType.setupCommandLine(generalCommandLine, jdk);
 
     // We should not launch Scalac on Java files only,
     // yet the initial filtering in IDEA (which uses ScalaCompiler.isCompilableFile)
@@ -318,7 +308,7 @@ public class ScalacBackendCompiler extends ExternalCompiler {
     // Because there's no way to interrupt a started compilation,
     // we return a command line to launch a bare Java command as a "compilation" process.
     if (!ScalaCompiler.containsScalaFiles(chunk.getFilesToCompile())) {
-      return;
+      return generalCommandLine;
     }
 
     ScalacSettings settings = ScalacSettings.getInstance(myProject);
@@ -326,22 +316,23 @@ public class ScalacBackendCompiler extends ExternalCompiler {
     //For debug
     //commandLine.add("-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5009");
 
+    ParametersList parametersList = generalCommandLine.getParametersList();
     ScalaFacet[] facets = ScalaFacet.findIn(chunk.getModules());
 
     if (myFsc) {
       if (!settings.INTERNAL_SERVER && !settings.SHARED_DIRECTORY.isEmpty()) {
-        commandLine.add(String.format("-Djava.io.tmpdir=%s", settings.SHARED_DIRECTORY));
+        parametersList.add(String.format("-Djava.io.tmpdir=%s", settings.SHARED_DIRECTORY));
       }
     } else {
       for(ScalaFacet facet : facets) {
-        commandLine.addAll(Arrays.asList(facet.javaParameters()));
+        parametersList.addAll(Arrays.asList(facet.javaParameters()));
         break;
       }
     }
 
-    CompilerUtil.addLocaleOptions(commandLine, false);
+    JavaCompilerUtil.addLocaleOptions(parametersList, false);
 
-    commandLine.add("-cp");
+    parametersList.add("-cp");
     final StringBuilder classPathBuilder = new StringBuilder();
 
     if (myFsc) {
@@ -359,14 +350,14 @@ public class ScalacBackendCompiler extends ExternalCompiler {
     String rtJarPath = PathUtil.getJarPathForClass(ClassRunner.class);
     classPathBuilder.append(rtJarPath).append(File.pathSeparator);
 
-    commandLine.add(classPathBuilder.toString());
+    parametersList.add(classPathBuilder.toString());
 
-    commandLine.add(ClassRunner.class.getName());
+    parametersList.add(ClassRunner.class.getName());
 
     if (myFsc) {
-      commandLine.add("scala.tools.nsc.CompileClient");
+      parametersList.add("scala.tools.nsc.CompileClient");
     } else {
-      commandLine.add("scala.tools.nsc.Main");
+      parametersList.add("scala.tools.nsc.Main");
     }
 
     String[] parameters = facets.length > 0 ? facets[0].compilerParameters() : new String[] {};
@@ -376,16 +367,17 @@ public class ScalacBackendCompiler extends ExternalCompiler {
       fillFileWithScalacParams(chunk, fileWithParams, outputPath, myProject, parameters);
 
       String path = fileWithParams.getPath();
-      commandLine.add(path);
+      parametersList.add(path);
 
       if (LOG.isDebugEnabled()) {
-        for (String s : commandLine) LOG.debug(s);
+        for (String s : parametersList.getArray()) LOG.debug(s);
         String s = Source.fromFile(fileWithParams, "UTF8").getLines().mkString("\n");
         LOG.debug(s);
       }
     } catch (IOException e) {
       LOG.error(e);
     }
+    return generalCommandLine;
   }
 
   private static String getEncodingOptions() {
@@ -546,7 +538,7 @@ public class ScalacBackendCompiler extends ExternalCompiler {
   }
 
   private Sdk getJdkForStartupCommand(final ModuleChunk chunk) {
-    final Sdk jdk = chunk.getJdk();
+    final Sdk jdk = JavaCompilerUtil.getSdkForCompilation(chunk);
     /*if (ApplicationManager.getApplication().isUnitTestMode()) {
       final String jdkHomePath = CompilerConfigurationImpl.getTestsExternalCompilerHome();
       if (jdkHomePath == null) {

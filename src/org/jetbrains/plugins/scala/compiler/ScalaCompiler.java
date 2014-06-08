@@ -6,10 +6,7 @@ import com.intellij.compiler.impl.javaCompiler.BackendCompiler;
 import com.intellij.compiler.impl.javaCompiler.BackendCompilerWrapper;
 import com.intellij.compiler.make.CacheCorruptedException;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.compiler.CompileContext;
-import com.intellij.openapi.compiler.CompileScope;
-import com.intellij.openapi.compiler.CompilerMessageCategory;
-import com.intellij.openapi.compiler.TranslatingCompiler;
+import com.intellij.openapi.compiler.*;
 import com.intellij.openapi.compiler.ex.CompileContextEx;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileTypes.FileType;
@@ -116,14 +113,14 @@ public class ScalaCompiler implements TranslatingCompiler {
 
     ScalacSettings settings = ScalacSettings.getInstance(project);
 
-    if (!CompilerWorkspaceConfiguration.getInstance(project).USE_OUT_OF_PROCESS_BUILD && myFsc && settings.INTERNAL_SERVER) {
+    if (myFsc && settings.INTERNAL_SERVER) {
       FscServerLauncher server = myProject.getComponent(FscServerLauncher.class);
       server.init();
     }
 
     final BackendCompiler backEndCompiler = getBackEndCompiler();
 
-    final BackendCompilerWrapper wrapper = new BackendCompilerWrapper(moduleChunk, myProject, filesToCompile,
+    final BackendCompilerWrapper wrapper = new BackendCompilerWrapper(this, moduleChunk, myProject, filesToCompile,
         (CompileContextEx) context, backEndCompiler, sink);
     try {
       wrapper.compile();
@@ -137,8 +134,25 @@ public class ScalaCompiler implements TranslatingCompiler {
     }
   }
 
+  @NotNull
+  @Override
+  public FileType[] getInputFileTypes() {
+    return new FileType[0];
+  }
+
+  @NotNull
+  @Override
+  public FileType[] getOutputFileTypes() {
+    return new FileType[0];
+  }
+
   public boolean validateConfiguration(CompileScope scope) {
     return getBackEndCompiler().checkCompiler(scope);
+  }
+
+  @Override
+  public void init(@NotNull CompilerManager compilerManager) {
+    compilerManager.addCompilableFileType(ScalaFileType.SCALA_FILE_TYPE);
   }
 
   private BackendCompiler getBackEndCompiler() {
