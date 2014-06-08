@@ -66,7 +66,7 @@ class ScalaUnusedImportPass(val file: PsiFile, editor: Editor, val document: Doc
       if (myOptimizeImportsRunnable != null &&
         ScalaApplicationSettings.getInstance().OPTIMIZE_IMPORTS_ON_THE_FLY &&
         ScalaUnusedImportPass.timeToOptimizeImports(file) && file.isWritable) {
-        QuickFixFactoryImpl.invokeOnTheFlyImportOptimizer(myOptimizeImportsRunnable, file, editor)
+       //TODO [VISTALL] QuickFixFactoryImpl.invokeOnTheFlyImportOptimizer(myOptimizeImportsRunnable, file, editor)
       }
     }
   }

@@ -42,7 +42,6 @@ import org.jetbrains.plugins.scala.compiler.rt.ClassRunner
 import lang.psi.api.toplevel.ScModifierListOwner
 import com.intellij.openapi.application.ApplicationManager
 import java.io.{IOException, FileOutputStream, PrintStream, File}
-import org.jetbrains.idea.maven.project.MavenProjectsManager
 import scala.collection.mutable
 
 /**

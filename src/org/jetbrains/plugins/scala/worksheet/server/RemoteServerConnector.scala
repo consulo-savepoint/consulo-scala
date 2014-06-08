@@ -219,7 +219,7 @@ object RemoteServerConnector {
     override def trace(exception: Throwable) {
       consumer trace exception
     }
-    override def message(kind: Kind, text: String, source: Option[File], line: Option[Long], column: Option[Long]) {
+    override def message(kind: CompilerMessageCategory, text: String, source: Option[File], line: Option[Long], column: Option[Long]) {
       val lines = text split "\n"
       val linesLength = lines.length
 
@@ -243,17 +243,8 @@ object RemoteServerConnector {
       val line1 = line.map(i => i - 3).map(_.toInt)
       val column1 = column.map(_ + 1 - differ).map(_.toInt)
 
-      val category = kind match {
-        case BuildMessage.Kind.INFO => CompilerMessageCategory.INFORMATION
-        case BuildMessage.Kind.ERROR => 
-          hasErrors = true
-          CompilerMessageCategory.ERROR
-        case BuildMessage.Kind.PROGRESS => CompilerMessageCategory.STATISTICS
-        case BuildMessage.Kind.WARNING => CompilerMessageCategory.WARNING
-      }
-      
       consumer.message(
-        new CompilerMessageImpl(project, category, finalText, worksheet, line1 getOrElse -1, column1 getOrElse -1, null)
+        new CompilerMessageImpl(project, kind, finalText, worksheet, line1 getOrElse -1, column1 getOrElse -1, null)
       )
     }
 

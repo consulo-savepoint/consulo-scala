@@ -59,8 +59,8 @@ abstract class BaseRunConfiguration(val project: Project, val configurationFacto
       throw new ExecutionException("No Scala facet configured for module " + module.getName)
     }
 
-    val sdk : Sdk = ModuleUtilCore.getSdk(module, classOf[JavaModuleExtension])
-    if (sdk == null || !sdk.getSdkType.isInstanceOf[JavaSdkType]) {
+    val sdk : Sdk = ModuleUtilCore.getSdk(module, classOf[JavaModuleExtension[_]])
+    if (sdk == null) {
       throw CantRunException.noJdkForModule(module)
     }
 

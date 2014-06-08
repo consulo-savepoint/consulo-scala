@@ -6,7 +6,7 @@ import com.intellij.internal.statistic.beans.{UsageDescriptor, GroupDescriptor}
 import com.intellij.openapi.project.Project
 import java.util
 import scala.collection.mutable
-import com.intellij.openapi.module.{ModuleUtilCore, ModuleManager}
+import com.intellij.openapi.module.{Module, ModuleUtilCore, ModuleManager}
 import org.jetbrains.plugins.scala.config.ScalaFacet
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.ide.plugins.PluginManager
@@ -34,7 +34,8 @@ class ScalaApplicationUsagesCollector extends AbstractApplicationUsagesCollector
           case _ =>
         }
 
-        ModuleUtilCore.getSdk(module, classOf[JavaModuleExtension]) match {
+        val sdk : Sdk = ModuleUtilCore.getSdk(module, classOf[JavaModuleExtension[_]])
+        sdk match {
           case jsdk: JavaSdk => java_version = Option(jsdk.getVersionString)
           case _ =>
         }

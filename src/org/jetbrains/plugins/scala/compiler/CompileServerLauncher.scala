@@ -30,7 +30,7 @@ class CompileServerLauncher extends ApplicationComponent {
   def tryToStart(project: Project): Boolean = running || start(project)
 
   private def start(project: Project): Boolean = {
-     val applicationSettings = ScalaApplicationSettings.getInstance
+    /* val applicationSettings = ScalaApplicationSettings.getInstance
 
      if (applicationSettings.COMPILE_SERVER_SDK == null) {
        // Try to find a suitable JDK
@@ -63,7 +63,8 @@ class CompileServerLauncher extends ApplicationComponent {
         }
         
         true
-    }
+    }  */
+    false
   }
 
    private def start(jdk: JDK): Either[String, Process] = {

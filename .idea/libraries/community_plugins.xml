@@ -13,7 +13,6 @@
       <root url="file://$PROJECT_DIR$/dep/xml/lib" />
       <root url="jar://$PROJECT_DIR$/dep/spellchecker/lib/spellchecker.jar!/" />
       <root url="jar://$PROJECT_DIR$/dep/intelliLang/lib/intelliLang.jar!/" />
-      <root url="jar://$PROJECT_DIR$/dep/maven/lib/maven.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
