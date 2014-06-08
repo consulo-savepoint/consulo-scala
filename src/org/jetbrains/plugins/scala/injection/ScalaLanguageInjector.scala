@@ -32,9 +32,7 @@ import org.jetbrains.plugins.scala.util.MultilineStringUtil
  */
 
 class ScalaLanguageInjector(myInjectionConfiguration: Configuration) extends MultiHostInjector {
-  override def elementsToInjectIn = List(classOf[ScLiteral], classOf[ScInfixExpr])
-
-  override def getLanguagesToInject(registrar: MultiHostRegistrar, host: PsiElement) {
+  override def injectLanguages(registrar: MultiHostRegistrar, host: PsiElement) : Unit = {
     val literals = literalsOf(host)
     if (literals.isEmpty) return
 

@@ -190,7 +190,7 @@ public class AttachSourcesUtil {
    */
   public static VirtualFile[] scanAndSelectDetectedJavaSourceRoots(Component parentComponent, final VirtualFile[] rootCandidates) {
     final List<RootDetector> rootDetectors = new ArrayList<RootDetector>();
-    rootDetectors.add(PathUIUtils.JAVA_SOURCE_ROOT_DETECTOR);
+  //  rootDetectors.add(PathUIUtils.JAVA_SOURCE_ROOT_DETECTOR);
     rootDetectors.add(new FileTypeBasedRootFilter(OrderRootType.SOURCES, false, ScalaFileType.SCALA_FILE_TYPE, "source"));
     final List<OrderRoot> orderRoots = RootDetectionUtil.detectRoots(Arrays.asList(rootCandidates), parentComponent, null,
         new LibraryRootsDetectorImpl(rootDetectors),

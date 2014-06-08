@@ -58,7 +58,7 @@ public class ScalacConfigurable implements Configurable {
 
     updateLibrariesList();
 
-    boolean externalCompiler = CompilerWorkspaceConfiguration.getInstance(myProject).USE_OUT_OF_PROCESS_BUILD;
+    boolean externalCompiler = false;
 
     myFscSettingsPanel.setVisible(!externalCompiler);
     myCompileOrderPanel.setVisible(!externalCompiler);
@@ -189,7 +189,7 @@ public class ScalacConfigurable implements Configurable {
     mySettings.REMOTE_PORT = myRemotePort.getText();
     mySettings.SHARED_DIRECTORY = mySharedDirectory.getText();
 
-    boolean externalCompiler = CompilerWorkspaceConfiguration.getInstance(myProject).USE_OUT_OF_PROCESS_BUILD;
+    boolean externalCompiler = false;
 
     if (externalCompiler || !myRunInternalServerRadioButton.isSelected()) {
       myProject.getComponent(FscServerLauncher.class).stop();

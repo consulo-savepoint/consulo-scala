@@ -22,7 +22,6 @@ import com.intellij.ide.fileTemplates.{FileTemplateManager, FileTemplate, JavaTe
 import com.intellij.openapi.fileTypes.ex.FileTypeManagerEx
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.ui.InputValidatorEx
-import org.jetbrains.jps.model.java.JavaModuleSourceRootTypes
 
 /**
  * User: Alexander Podkhalyuzin
@@ -30,8 +29,7 @@ import org.jetbrains.jps.model.java.JavaModuleSourceRootTypes
  */
 
 class NewScalaTypeDefinitionAction extends CreateTemplateInPackageAction[ScTypeDefinition](
-  ScalaBundle.message("newclass.menu.action.text"), ScalaBundle.message("newclass.menu.action.description"), Icons.CLASS,
-  JavaModuleSourceRootTypes.SOURCES) with DumbAware {
+  ScalaBundle.message("newclass.menu.action.text"), ScalaBundle.message("newclass.menu.action.description"), Icons.CLASS, true) with DumbAware {
   protected def buildDialog(project: Project, directory: PsiDirectory,
                             builder: CreateFileFromTemplateDialog.Builder) {
     builder.addKind("Class", Icons.CLASS, "Scala Class")

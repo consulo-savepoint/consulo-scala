@@ -4,8 +4,10 @@ import com.intellij.compiler.CompilerConfiguration;
 import com.intellij.compiler.CompilerConfigurationImpl;
 import com.intellij.compiler.OutputParser;
 import com.intellij.compiler.impl.CompilerUtil;
+import com.intellij.compiler.impl.ModuleChunk;
 import com.intellij.compiler.impl.javaCompiler.ExternalCompiler;
-import com.intellij.compiler.impl.javaCompiler.ModuleChunk;
+import com.intellij.compiler.impl.javaCompiler.JavaCompilerConfigurable;
+import com.intellij.compiler.impl.javaCompiler.JavaCompilerConfiguration;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompileScope;
@@ -13,11 +15,12 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.JavaSdk;
 import com.intellij.openapi.projectRoots.JavaSdkType;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.projectRoots.impl.MockJdkWrapper;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.OrderEnumerator;
 import com.intellij.openapi.roots.ProjectFileIndex;
@@ -32,6 +35,7 @@ import com.intellij.openapi.vfs.encoding.EncodingManager;
 import com.intellij.util.ArrayFactory;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.PathUtil;
+import org.consulo.java.module.extension.JavaModuleExtension;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.plugins.scala.ScalaBundle;
@@ -170,7 +174,7 @@ public class ScalacBackendCompiler extends ExternalCompiler {
     Set<Module> nojdkModules = new HashSet<Module>();
     for (Module module : scope.getAffectedModules()) {
       if (!(ScalaUtils.isSuitableModule(module))) continue;
-      Sdk sdk = ModuleRootManager.getInstance(module).getSdk();
+      Sdk sdk = ModuleUtilCore.getSdk(module, JavaModuleExtension.class);
       if (sdk == null || !(sdk.getSdkType() instanceof JavaSdkType)) {
         nojdkModules.add(module);
       }
@@ -203,7 +207,7 @@ public class ScalacBackendCompiler extends ExternalCompiler {
     // (Javac is invoked before Scalac no matter what).
     ScalacSettings settings = ScalacSettings.getInstance(myProject);
     if (settings.SCALAC_BEFORE) {
-      final CompilerConfigurationImpl config = (CompilerConfigurationImpl) CompilerConfiguration.getInstance(myProject);
+      final JavaCompilerConfiguration config = JavaCompilerConfiguration.getInstance(myProject);
       LinkedList<String> names = new LinkedList<String>();
       for (Module module : allModules) {
         if (config.getAnnotationProcessingConfiguration(module).isEnabled()) {
@@ -444,9 +448,9 @@ public class ScalacBackendCompiler extends ExternalCompiler {
     //write classpath
     printer.println("-cp");
 
-    printer.print(chunk.getCompilationBootClasspath());
+    printer.print(chunk.getCompilationBootClasspath(JavaSdk.getInstance()));
     printer.print(File.pathSeparator);
-    printer.println(chunk.getCompilationClasspath());
+    printer.println(chunk.getCompilationClasspath(JavaSdk.getInstance()));
 
     List<VirtualFile> filesToCompile = new LinkedList<VirtualFile>();
     if (settings.SCALAC_BEFORE) {
@@ -543,14 +547,14 @@ public class ScalacBackendCompiler extends ExternalCompiler {
 
   private Sdk getJdkForStartupCommand(final ModuleChunk chunk) {
     final Sdk jdk = chunk.getJdk();
-    if (ApplicationManager.getApplication().isUnitTestMode()) {
+    /*if (ApplicationManager.getApplication().isUnitTestMode()) {
       final String jdkHomePath = CompilerConfigurationImpl.getTestsExternalCompilerHome();
       if (jdkHomePath == null) {
         throw new IllegalArgumentException("[TEST-MODE] Cannot determine home directory for JDK to use javac from");
       }
       // when running under Mock JDK use VM executable from the JDK on which the tests run
       return new MockJdkWrapper(jdkHomePath, jdk);
-    }
+    }    */
     return jdk;
   }
 

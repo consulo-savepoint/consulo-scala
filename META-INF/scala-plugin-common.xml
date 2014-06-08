@@ -16,22 +16,42 @@
         <extensionPoint name="scalaElementToRenameContributor" interface="org.jetbrains.plugins.scala.lang.refactoring.rename.ScalaElementToRenameContributor"/>
     </extensionPoints>
 
+   <extensions defaultExtensionNs="org.consulo.java">
+     <refactoring.moveAllClassesInFileHandler implementation="org.jetbrains.plugins.scala.lang.refactoring.move.MoveScalaClassesInFileHandler" order="last"/>
+     <debugger.codeFragmentFactory implementation="org.jetbrains.plugins.scala.debugger.evaluation.ScalaCodeFragmentFactory"/>
+     <debugger.positionManagerFactory implementation="org.jetbrains.plugins.scala.debugger.ScalaPositionManagerFactory"/>
+     <debuggerEditorTextProvider language="Scala" implementationClass="org.jetbrains.plugins.scala.debugger.evaluation.ScalaEditorTextProvider"/>
+     <generation.topLevelFactory language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.psi.impl.ScalaFactoryProvider"/>
+     <mainMethodProvider implementation="org.jetbrains.plugins.scala.runner.ScalaMainMethodProvider"/>
+     <annotatedElementsSearch implementation="org.jetbrains.plugins.scala.lang.psi.impl.search.ScalaAnnotatedMembersSearcher"/>
+     <methodImplementor implementation="org.jetbrains.plugins.scala.overrideImplement.ScalaMethodImplementor"/>
+     <debugger.jvmSmartStepIntoHandler implementation="org.jetbrains.plugins.scala.debugger.ScalaSmartStepIntoHandler"/>
+     <directClassInheritorsSearch implementation="org.jetbrains.plugins.scala.lang.psi.impl.search.ScalaDirectClassInheritorsSearcher"/>
+     <debuggerClassFilterProvider implementation="org.jetbrains.plugins.scala.debugger.filters.ScalaDebuggerClassFilterProvider"/>
+     <overridingMethodsSearch implementation="org.jetbrains.plugins.scala.lang.psi.impl.search.ScalaOverridingMemberSearcher" order="first"/>
+     <refactoring.moveClassHandler implementation="org.jetbrains.plugins.scala.lang.refactoring.move.MoveScalaClassHandler" order="first"/>
+     <refactoring.introduceParameterMethodUsagesProcessor implementation="org.jetbrains.plugins.scala.lang.refactoring.introduceParameter.ScalaIntroduceParameterMethodUsagesProcessor"/>
+     <methodReferencesSearch implementation="org.jetbrains.plugins.scala.findUsages.NonMemberMethodUsagesSearcher"/>
+     <testGenerator language="Scala" implementationClass="org.jetbrains.plugins.scala.testingSupport.ScalaTestGenerator"/>
+     <elementFinder implementation="org.jetbrains.plugins.scala.lang.psi.impl.toplevel.synthetic.SyntheticClasses"/>
+     <elementFinder implementation="org.jetbrains.plugins.scala.finder.ScalaClassFinder"/>
+     <elementFinder implementation="org.jetbrains.plugins.scala.finder.ScalaPackageFinder"/>
+     <java.shortNamesCache implementation="org.jetbrains.plugins.scala.caches.ScalaShortNamesCache"/>
+     <constantExpressionEvaluator language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.psi.util.ScalaConstantExpressionEvaluator"/>
+     <annotationSupport language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.psi.ScalaAnnotationSupport"/>
+     <clsStubBuilderFactory implementation="org.jetbrains.plugins.scala.decompiler.ScClsStubBuilderFactory"/>
+
+   </extensions>
+
     <extensions defaultExtensionNs="com.intellij">
         <project.converterProvider
                 implementation="org.jetbrains.plugins.scala.lang.formatting.settings.ImportPanelConverterProvider"/>
         <statistics.usagesCollector
                 implementation="org.jetbrains.plugins.scala.statistics.ScalaApplicationUsagesCollector" />
         <lang.rearranger language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.rearranger.ScalaRearranger"/>
-        <compileServer.plugin classpath="scala-library.jar;compiler-settings.jar;jps/nailgun.jar;jps/scala-jps-plugin.jar;jps/sbt-interface.jar;jps/incremental-compiler.jar;jps/jline.jar"/>
-        <projectTemplatesFactory implementation="org.jetbrains.plugins.scala.config.scalaProjectTemplate.ScalaProjectTemplatesFactory"/>
         <!--<moduleBuilder builderClass="org.jetbrains.plugins.scala.config.scalaProjectTemplate.ScalaModuleBuilder"/>-->
         <refactoring.moveHandler implementation="org.jetbrains.plugins.scala.lang.refactoring.move.ScalaMoveClassesOrPackagesHandler" order="first"/>
-        <refactoring.moveAllClassesInFileHandler implementation="org.jetbrains.plugins.scala.lang.refactoring.move.MoveScalaClassesInFileHandler" order="last"/>
         <statementUpDownMover implementation="org.jetbrains.plugins.scala.lang.refactoring.ScalaStatementMover"/>
-        <debugger.codeFragmentFactory implementation="org.jetbrains.plugins.scala.debugger.evaluation.ScalaCodeFragmentFactory"/>
-        <debugger.positionManagerFactory implementation="org.jetbrains.plugins.scala.debugger.ScalaPositionManagerFactory"/>
-        <debuggerEditorTextProvider language="Scala" implementationClass="org.jetbrains.plugins.scala.debugger.evaluation.ScalaEditorTextProvider"/>
-        <generation.topLevelFactory language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.psi.impl.ScalaFactoryProvider"/>
         <treeCopyHandler implementation="org.jetbrains.plugins.scala.lang.refactoring.util.ScalaChangeUtilSupport"/>
         <iconProvider implementation="org.jetbrains.plugins.scala.components.ScalaIconProvider"/>
         <colorSettingsPage implementation="org.jetbrains.plugins.scala.highlighter.ScalaColorsAndFontsPage"/>
@@ -71,8 +91,7 @@
         <joinLinesHandler implementation="org.jetbrains.plugins.scala.editor.joinlines.PackageJoinLinesHandler"/>
         <lang.smartEnterProcessor language="Scala" implementationClass="org.jetbrains.plugins.scala.editor.smartEnter.ScalaSmartEnterProcessor"/>
         <lang.smartEnterProcessor language="Scala" implementationClass="org.jetbrains.plugins.scala.editor.smartEnter.PackageSplitLinesProcessor"/>
-        <frameworkSupport implementation="org.jetbrains.plugins.scala.config.ScalaFacetSupportProvider"/>
-        <facetType implementation="org.jetbrains.plugins.scala.config.ScalaFacetType"/>
+
         <completion.contributor language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.completion.ScalaKeywordCompletionContributor"/>
         <completion.contributor language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.completion.ScalaSmartCompletionContributor"/>
         <completion.contributor language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.completion.ScalaMemberNameCompletionContributor"/>
@@ -107,13 +126,11 @@
         <codeInsight.overrideMethod language="Scala" implementationClass="org.jetbrains.plugins.scala.overrideImplement.ScalaOverrideMethodsHandler"/>
         <codeInsight.implementMethod language="Scala" implementationClass="org.jetbrains.plugins.scala.overrideImplement.ScalaImplementMethodsHandler"/>
         <codeInsight.delegateMethods language="Scala" implementationClass="org.jetbrains.plugins.scala.codeInsight.delegate.ScalaGenerateDelegateHandler"/>
-        <methodImplementor implementation="org.jetbrains.plugins.scala.overrideImplement.ScalaMethodImplementor"/>
         <lookup.charFilter implementation="org.jetbrains.plugins.scala.lang.completion.ScalaCharFilter"/>
         <lang.findUsagesProvider language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.findUsages.ScalaFindUsagesProvider"/>
         <usageTypeProvider implementation="org.jetbrains.plugins.scala.lang.findUsages.ScalaUsageTypeProvider"/>
         <importFilteringRule implementation="org.jetbrains.plugins.scala.lang.findUsages.ScalaImportFilteringRule"/>
         <codeStyleSettingsProvider implementation="org.jetbrains.plugins.scala.lang.formatting.settings.ScalaCodeStyleSettingsProvider"/>
-        <compilerSettingsFactory implementation="org.jetbrains.plugins.scala.compiler.ScalaCompilerSettingsFactory"/>
         <internalFileTemplate name="Scala Class"/>
         <internalFileTemplate name="Scala Trait"/>
         <internalFileTemplate name="Scala Object"/>
@@ -123,14 +140,11 @@
         <defaultTemplatePropertiesProvider implementation="org.jetbrains.plugins.scala.actions.ScalaDefaultTemplatePropertiesProvider"/>
         <indexPatternBuilder implementation="org.jetbrains.plugins.scala.editor.todo.ScalaIndexPatternBuilder"/>
         <readWriteAccessDetector implementation="org.jetbrains.plugins.scala.highlighter.readWriteAccess.ScalaReadWriteAccessDetector"/>
-        <directClassInheritorsSearch implementation="org.jetbrains.plugins.scala.lang.psi.impl.search.ScalaDirectClassInheritorsSearcher"/>
         <codeInsight.lineMarkerProvider language="Scala" implementationClass="org.jetbrains.plugins.scala.annotator.gutter.ScalaLineMarkerProvider"/>
         <codeInsight.lineMarkerProvider language="Scala" implementationClass="org.jetbrains.plugins.scala.util.macroDebug.GoToExpandedMacroCallProviderExt"/>
         <codeInsight.gotoSuper language="Scala" implementationClass="org.jetbrains.plugins.scala.annotator.gutter.ScalaGoToSuperActionHandler"/>
         <gotoDeclarationHandler implementation="org.jetbrains.plugins.scala.annotator.gutter.ScalaGoToDeclarationHandler"/>
-        <debuggerClassFilterProvider implementation="org.jetbrains.plugins.scala.debugger.filters.ScalaDebuggerClassFilterProvider"/>
         <xdebugger.settings implementation="org.jetbrains.plugins.scala.debugger.filters.ScalaDebuggerSettings"/>
-        <debugger.jvmSmartStepIntoHandler implementation="org.jetbrains.plugins.scala.debugger.ScalaSmartStepIntoHandler"/>
         <lang.documentationProvider language="Scala" implementationClass="org.jetbrains.plugins.scala.editor.documentationProvider.ScalaDocumentationProvider"/>
         <renamePsiElementProcessor implementation="org.jetbrains.plugins.scala.lang.refactoring.rename.RenameScalaMethodProcessor" order="first"/>
         <renamePsiElementProcessor implementation="org.jetbrains.plugins.scala.lang.refactoring.rename.PrepareRenameScalaMethodProcessor" order="last"/>
@@ -146,13 +160,10 @@
         <renameHandler implementation="org.jetbrains.plugins.scala.lang.refactoring.rename.inplace.ScalaLocalInplaceRenameHandler" order="first" />
         <nameSuggestionProvider implementation="org.jetbrains.plugins.scala.lang.refactoring.namesSuggester.ScalaNameSuggestionProvider" order="last"/>
         <definitionsSearch implementation="org.jetbrains.plugins.scala.lang.psi.impl.search.MethodImplementationsSearch"/>
-        <overridingMethodsSearch implementation="org.jetbrains.plugins.scala.lang.psi.impl.search.ScalaOverridingMemberSearcher" order="first"/>
         <antCustomCompiler implementation="org.jetbrains.plugins.scala.ant.ScalaAntCustomCompilerProvider"/>
-        <refactoring.moveClassHandler implementation="org.jetbrains.plugins.scala.lang.refactoring.move.MoveScalaClassHandler" order="first"/>
         <refactoring.elementListenerProvider implementation="org.jetbrains.plugins.scala.runner.ScalaRunConfigurationRefactoringListenerProvider"/>
         <!--<moveFileHandler implementation="org.jetbrains.plugins.scala.lang.refactoring.move.MoveScalaFileHandler" order="first"/>-->
         <refactoring.inlineHandler language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.refactoring.inline.ScalaInlineHandler"/>
-        <refactoring.introduceParameterMethodUsagesProcessor implementation="org.jetbrains.plugins.scala.lang.refactoring.introduceParameter.ScalaIntroduceParameterMethodUsagesProcessor"/>
         <refactoring.safeDeleteProcessor implementation="org.jetbrains.plugins.scala.lang.refactoring.delete.ScalaSafeDeleteProcessorDelegate" order="first"/>
         <copyPastePreProcessor implementation="org.jetbrains.plugins.scala.conversion.copy.StringLiteralProcessor"/>
         <copyPastePostProcessor implementation="org.jetbrains.plugins.scala.conversion.copy.JavaCopyPastePostProcessor"/>
@@ -176,8 +187,6 @@
         <enterHandlerDelegate implementation="org.jetbrains.plugins.scala.editor.enterHandler.MultilineStringEnterHandler" order="first"/>
         <!--/Handler-->
 
-        <javaMainMethodProvider implementation="org.jetbrains.plugins.scala.runner.ScalaMainMethodProvider"/>
-        <annotatedElementsSearch implementation="org.jetbrains.plugins.scala.lang.psi.impl.search.ScalaAnnotatedMembersSearcher"/>
         <referencesSearch implementation="org.jetbrains.plugins.scala.findUsages.parameters.NamingParamsSearcher"/>
         <referencesSearch implementation="org.jetbrains.plugins.scala.findUsages.typeDef.ObjectTraitReferenceSearcher"/>
         <referencesSearch implementation="org.jetbrains.plugins.scala.findUsages.apply.ApplyMethodSearcher"/>
@@ -190,7 +199,6 @@
         <referencesSearch implementation="org.jetbrains.plugins.scala.findUsages.ScalaPackageUsagesSearcher"/>
         <referencesSearch implementation="org.jetbrains.plugins.scala.findUsages.vals.ApplyUnapplyForBindingSearcher"/>
         <referencesSearch implementation="org.jetbrains.plugins.scala.findUsages.OperatorAndBacktickedSearcher"/>
-        <methodReferencesSearch implementation="org.jetbrains.plugins.scala.findUsages.NonMemberMethodUsagesSearcher"/>
         <findUsagesHandlerFactory implementation="org.jetbrains.plugins.scala.findUsages.factory.ScalaFindUsagesHandlerFactory" order="first"/>
         <customUsageSearcher implementation="org.jetbrains.plugins.scala.findUsages.parameters.ConstructorParamsInConstructorPatternSearcher"/>
         <qualifiedNameProvider implementation="org.jetbrains.plugins.scala.actions.ScalaQualifiedNameProvider" order="first"/>
@@ -209,22 +217,16 @@
 
         <testSrcLocator implementation="org.jetbrains.plugins.scala.testingSupport.locationProvider.ScalaTestLocationProvider"/>
         <testCreator language="Scala" implementationClass="org.jetbrains.plugins.scala.testingSupport.ScalaTestCreator"/>
-        <testGenerator language="Scala" implementationClass="org.jetbrains.plugins.scala.testingSupport.ScalaTestGenerator"/>
 
         <testFramework implementation="org.jetbrains.plugins.scala.testingSupport.test.specs2.Specs2TestFramework"/>
         <testFramework implementation="org.jetbrains.plugins.scala.testingSupport.test.scalatest.ScalaTestTestFramework"/>
 	      <testFramework implementation="org.jetbrains.plugins.scala.testingSupport.test.utest.UTestTestFramework"/>
 
-        <java.elementFinder implementation="org.jetbrains.plugins.scala.lang.psi.impl.toplevel.synthetic.SyntheticClasses"/>
-        <java.elementFinder implementation="org.jetbrains.plugins.scala.finder.ScalaClassFinder"/>
-        <java.elementFinder implementation="org.jetbrains.plugins.scala.finder.ScalaPackageFinder"/>
-        <java.shortNamesCache implementation="org.jetbrains.plugins.scala.caches.ScalaShortNamesCache"/>
+
         <typeHierarchyProvider language="Scala" implementationClass="org.jetbrains.plugins.scala.hierarchy.ScalaTypeHierarchyProvider"/>
         <methodHierarchyProvider language="Scala" implementationClass="org.jetbrains.plugins.scala.hierarchy.ScalaMethodHierarchyProvider"/>
         <callHierarchyProvider language="Scala" implementationClass="org.jetbrains.plugins.scala.hierarchy.ScalaCallHierarchyProvider"/>
         <highlightUsagesHandlerFactory implementation="org.jetbrains.plugins.scala.highlighter.usages.ScalaHighlightUsagesHandlerFactory"/>
-        <constantExpressionEvaluator language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.psi.util.ScalaConstantExpressionEvaluator"/>
-        <annotationSupport language="Scala" implementationClass="org.jetbrains.plugins.scala.lang.psi.ScalaAnnotationSupport"/>
         <!--<classNameInsertHandler implementationClass="org.jetbrains.plugins.scala.lang.completion.ScalaClassNameInsertHandler" language="Scala"/>-->
 
         <gotoClassContributor implementation="org.jetbrains.plugins.scala.gotoclass.ScalaGoToClassContributor"/>
@@ -294,7 +296,6 @@
         <extendWordSelectionHandler implementation="org.jetbrains.plugins.scala.editor.selectioner.ScalaCodeBlockSelectioner"/>
 
         <!--Extensions for class-files treatment-->
-        <clsStubBuilderFactory implementation="org.jetbrains.plugins.scala.decompiler.ScClsStubBuilderFactory"/>
         <contentBasedClassFileProcessor implementation="org.jetbrains.plugins.scala.decompiler.ScContentBasedClassFileProcessor" order="first"/>
         <contentBasedClassFileProcessor implementation="org.jetbrains.plugins.scala.decompiler.ScContentBasedClassFileProcessorHack" order="last"/>
         <lang.fileViewProviderFactory language="Scala" implementationClass="org.jetbrains.plugins.scala.decompiler.ScClassFileViewProviderFactory"/>
