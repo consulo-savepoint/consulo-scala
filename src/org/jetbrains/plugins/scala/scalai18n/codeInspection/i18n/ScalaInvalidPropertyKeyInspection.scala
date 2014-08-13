@@ -15,7 +15,6 @@ import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.openapi.util.Comparing
 import com.intellij.openapi.util.Ref
 import com.intellij.psi._
-import i18n.JavaCreatePropertyFix
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 import java.util.ArrayList
@@ -66,7 +65,7 @@ class ScalaInvalidPropertyKeyInspection extends LocalInspectionTool {
       val propertiesFiles: List[PropertiesFile] = filterNotInLibrary(expression.getProject,
         ScalaI18nUtil.propertiesFilesByBundleName(bundleName, expression))
       problems.add(manager.createProblemDescriptor(expression, description,
-        if (propertiesFiles.isEmpty) null else new JavaCreatePropertyFix(expression, key, propertiesFiles),
+        /*if (propertiesFiles.isEmpty)*/ null : LocalQuickFix/*else new JavaCreatePropertyFix(expression, key, propertiesFiles)*/,
         ProblemHighlightType.LIKE_UNKNOWN_SYMBOL, onTheFly))
     }
 

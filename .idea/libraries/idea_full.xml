@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="idea-full">
     <CLASSES>
-      <root url="file://H:/github.com/consulo/consulo/out/artifacts/distForRuntime/lib" />
-      <root url="jar://H:/github.com/consulo/consulo/out/artifacts/distForRuntime/plugins/core/lib/core.jar!/" />
+      <root url="file://F:/consulo/out/artifacts/distForRuntime/lib" />
+      <root url="jar://F:/consulo/out/artifacts/distForRuntime/plugins/core/lib/core.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
-    <jarDirectory url="file://H:/github.com/consulo/consulo/out/artifacts/distForRuntime/lib" recursive="false" />
+    <jarDirectory url="file://F:/consulo/out/artifacts/distForRuntime/lib" recursive="false" />
   </library>
 </component>

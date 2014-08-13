@@ -8,7 +8,6 @@
       <root url="jar://$PROJECT_DIR$/dep/java/lib/java-rt.jar!/" />
       <root url="jar://$PROJECT_DIR$/dep/java/lib/java.jar!/" />
       <root url="jar://$PROJECT_DIR$/dep/java/lib/jdi.jar!/" />
-      <root url="jar://$PROJECT_DIR$/dep/java-i18n/lib/java-i18n.jar!/" />
       <root url="jar://$PROJECT_DIR$/dep/properties/lib/properties.jar!/" />
       <root url="file://$PROJECT_DIR$/dep/xml/lib" />
       <root url="jar://$PROJECT_DIR$/dep/spellchecker/lib/spellchecker.jar!/" />

@@ -6,6 +6,7 @@ import lang.psi.api.ScalaFile
 import com.intellij.execution._
 import com.intellij.execution.configurations.JavaParameters
 import com.intellij.util.PathUtil
+import org.consulo.java.module.extension.JavaModuleExtension
 import org.jetbrains.plugins.scala.worksheet.runconfiguration.WorksheetViewerInfo
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.keymap.{KeymapUtil, KeymapManager}
@@ -19,7 +20,7 @@ import org.jetbrains.plugins.scala
 import com.intellij.openapi.compiler.{CompileContext, CompileStatusNotification, CompilerManager}
 import com.intellij.openapi.roots.{ModuleRootManager, ProjectFileIndex}
 import org.jetbrains.plugins.scala.config.{Libraries, CompilerLibraryData, ScalaFacet}
-import com.intellij.openapi.module.{ModuleManager, Module}
+import com.intellij.openapi.module.{ModuleUtilCore, ModuleManager, Module}
 import com.intellij.openapi.projectRoots.{JdkUtil, JavaSdkType}
 import org.jetbrains.plugins.scala.compiler.ScalacSettings
 import org.jetbrains.plugins.scala.worksheet.MacroPrinter
@@ -132,8 +133,8 @@ object RunWorksheetAction {
     }
 
     val rootManager = ModuleRootManager.getInstance(module)
-    val sdk = rootManager.getSdk
-    if (sdk == null || !sdk.getSdkType.isInstanceOf[JavaSdkType]) {
+    val sdk = ModuleUtilCore.getSdk(module, classOf[JavaModuleExtension[_]])
+    if (sdk == null) {
       throw CantRunException.noJdkForModule(module)
     }
 

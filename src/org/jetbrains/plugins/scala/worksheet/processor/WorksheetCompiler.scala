@@ -1,8 +1,8 @@
 package org.jetbrains.plugins.scala
 package worksheet.processor
 
-import com.intellij.compiler.impl.CompilerErrorTreeView
 import com.intellij.compiler.progress.CompilerTask
+import com.intellij.ide.errorTreeView.NewErrorTreeViewPanel
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.components.ServiceManager
@@ -84,7 +84,7 @@ class WorksheetCompiler {
         if (auto) return
         val pos = editor.offsetToLogicalPosition(errorMessage.getTextOffset)
 
-        val treeError = new CompilerErrorTreeView(project, null)
+        val treeError = new NewErrorTreeViewPanel(project, null)
 
         ApplicationManager.getApplication.invokeLater(new Runnable {
           override def run() {
@@ -107,7 +107,7 @@ class WorksheetCompiler {
     }
   }
 
-  private def openMessageView(project: Project, content: Content, treeView: CompilerErrorTreeView) {
+  private def openMessageView(project: Project, content: Content, treeView: NewErrorTreeViewPanel) {
     val commandProcessor = CommandProcessor.getInstance()
     commandProcessor.executeCommand(project, new Runnable {
       override def run() {

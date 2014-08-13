@@ -8,7 +8,7 @@ import java.io.{InputStreamReader, BufferedReader, Reader, File}
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.notification.{NotificationType, Notification, Notifications}
 import com.intellij.openapi.roots.ProjectRootManager
-import com.intellij.openapi.projectRoots.{JavaSdk, ProjectJdkTable}
+import com.intellij.openapi.projectRoots.{Sdk, JavaSdk}
 import com.intellij.openapi.project.Project
 import org.jetbrains.plugins.scala
 import com.intellij.execution.process._
@@ -33,7 +33,7 @@ class WorksheetNonServerRunner(project: Project) {
   private val jvmParameters = CompileServerLauncher.jvmParameters
   
   def run(args: Seq[String], listener: String => Unit): WorksheetProcess = {
-    val sdk = Option(ProjectRootManager.getInstance(project).getProjectSdk) getOrElse {
+    val sdk : Sdk = null/*Option(ProjectRootManager.getInstance(project).getProjectSdk) getOrElse {
       val all = ProjectJdkTable.getInstance.getSdksOfType(JavaSdk.getInstance())
       
       if (all.isEmpty) {
@@ -42,6 +42,10 @@ class WorksheetNonServerRunner(project: Project) {
       } 
       
       all.get(0)
+    }*/
+    if(sdk == null) {
+      error("No JDK available")
+      return null
     }
 
     CompileServerLauncher.compilerJars.foreach {

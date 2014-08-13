@@ -7,6 +7,7 @@ import com.intellij.psi._
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.PsiShortNamesCache
 import com.intellij.util.containers.HashSet
+import com.intellij.util.indexing.IdFilter
 import collection.mutable.ArrayBuffer
 import org.jetbrains.plugins.scala.lang.psi.api.toplevel.typedef.{ScTrait, ScClass, ScObject}
 import stubs.StubIndex
@@ -124,4 +125,10 @@ class ScalaShortNamesCache(project: Project) extends PsiShortNamesCache {
   }
 
   private var LOG: Logger = Logger.getInstance("#org.jetbrains.plugins.scala.caches.ScalaShortNamesCache")
+
+  override def processMethodsWithName(p1: String, p2: Processor[_ >: PsiMethod], p3: GlobalSearchScope, p4: IdFilter): Boolean = true
+
+  override def processClassesWithName(p1: String, p2: Processor[_ >: PsiClass], p3: GlobalSearchScope, p4: IdFilter): Boolean = true
+
+  override def processFieldsWithName(p1: String, p2: Processor[_ >: PsiField], p3: GlobalSearchScope, p4: IdFilter): Boolean = true
 }

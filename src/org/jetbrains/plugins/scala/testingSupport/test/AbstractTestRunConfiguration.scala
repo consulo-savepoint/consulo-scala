@@ -76,16 +76,7 @@ abstract class AbstractTestRunConfiguration(val project: Project,
   private var testArgs = ""
   private var javaOptions = ""
   private var workingDirectory = {
-    val module = getModule
-    val mavenProject =
-      if (module != null) MavenProjectsManager.getInstance(project).findProject(module)
-      else null
-    if (mavenProject != null) mavenProject.getDirectory
-    else {
-      val base = getProject.getBaseDir
-      if (base != null) base.getPath
-      else ""
-    }
+    getModule.getModuleDirPath;
   }
 
   def getTestClassPath = testClassPath
